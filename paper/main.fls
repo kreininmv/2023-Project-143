@@ -838,13 +838,13 @@ INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT c:/texlive/2022/texmf-dist/fonts/vf/adobe/times/ptmbi8t.vf
 INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmbi8r.tfm
 INPUT c:/texlive/2022/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf
+INPUT c:/texlive/2022/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
+INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT ./main.bbl
 INPUT main.bbl
 INPUT ./main.bbl
 INPUT main.bbl
 INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmrc8t.tfm
-INPUT c:/texlive/2022/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
-INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT c:/texlive/2022/texmf-dist/fonts/vf/adobe/times/ptmrc8t.vf
 INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm

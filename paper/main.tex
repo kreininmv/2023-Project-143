@@ -59,13 +59,51 @@ pdfkeywords={First keyword, Second keyword, More},
 
 \begin{abstract}
 	This paper examines the convergence rate of adaptive gradient methods when a regularization function is added to the target function. This is an area of research, since many machine learning problems use the heuristic, heuristic regularization, and we investigate the theoretical and practical convergence of adaptive gradient methods.
-
-	% В данной статье рассматривается скорость сходимости адаптивных градиентных методов при добавлении к целевой функции функцию регуляризации. Эта область требует исследования, т.к. при решении многих задач машинного обучения используется эвристика - эвристрегуляризация, и мы исследуем теоретически и практически  сходимость адаптивных градиентных методов.
 \end{abstract}
 
 \keywords{Adam \and OASIS \and Regularization \and ADAHessian}
 
 \section{Introduction}
+In machine learning we consider optimization problem
+\begin{equation*}
+	\min_{w \in \mathbb{R}^d} f(w)
+\end{equation*}
+Problems of the form (1) cover a plethora of applications, including empirical risk minimization,
+deep learning, and supervised learning tasks such as regularized least squares or logistic regression. This minimization problem can be difficult to solve, particularly when the number of training
+samples n, or problem dimension d, is large, or if the problem is nonconvex.
+
+There are second order preconditioners methods for solving this problem, such as Adam, OASIS, AdaHessian. 
+
+Throughout this work we assume that each f $:\mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable and also L-smooth. This is formalized in the following assumption.
+
+\begin{assumption}{1}{Convex}
+	The function f is convex, i.e. $\forall w, w' \in \mathbb{R}^d$
+	\begin{equation}
+		f(w) \geq f(w') + \langle \nabla F(w'), w-w' \rangle
+	\end{equation}
+\end{assumption}
+
+\begin{assumption}{2}{L-smoothness}
+	The gradients of F are L-Lipschitz continuous $\forall w \in \mathbb{R}^d$, i.e. there exists a constant $L > 0$ such that $\forall w, w' \in \mathbb{R}^d$,
+	\begin{equation*}
+		f(w) \leq f(w') + \langle \nabla f(w'), w-w' \rangle + \frac{L}{2} ||w - w'||^2
+	\end{equation*}
+\end{assumption}
+
+\begin{assumption}{3}{Twice differentiable}
+	The function f is twice continuously differentiable.
+\end{assumption}
+
+\begin{assumption}{4}{$\mu$ - strongly convex}
+	The function f is $\mu$-strongly convex, i.e., there exists a constant $\mu > 0$ such that $\forall w, w' \in \mathbb{R}^d$
+	\begin{equation*}
+		f(w) \geq f(w') + \langle f(w'), w-w' \rangle +\frac{\mu}{2} ||w - w'||^2
+	\end{equation*}
+	
+\end{assumption}
+
+
+\section{Problem statement}
 We consider the unconstrained optimization problem
 \begin{equation*}
 	\min_{w \in \mathbb{R}^d} f(w)
@@ -149,32 +187,6 @@ In the convergence algorithm that we study, we will investigate algorithms of th
 	\end{algorithmic}
 \end{algorithm}
 
-Some assumptions for our problem: 
-\begin{assumption}{1}{Convex}
-	The function f is convex, i.e. $\forall w, w' \in \mathbb{R}^d$
-	\begin{equation}
-		f(w) \geq f(w') + \langle \nabla F(w'), w-w' \rangle
-	\end{equation}
-\end{assumption}
-
-\begin{assumption}{2}{L-smoothness}
-	The gradients of F are L-Lipschitz continuous $\forall w \in \mathbb{R}^d$, i.e. there exists a constant $L > 0$ such that $\forall w, w' \in \mathbb{R}^d$,
-	\begin{equation*}
-		f(w) \leq f(w') + \langle \nabla f(w'), w-w' \rangle + \frac{L}{2} ||w - w'||^2
-	\end{equation*}
-\end{assumption}
-
-\begin{assumption}{3}{Twice differentiable}
-	The function f is twice continuously differentiable.
-\end{assumption}
-
-\begin{assumption}{4}{$\mu$ - strongly convex}
-	The function f is $\mu$-strongly convex, i.e., there exists a constant $\mu > 0$ such that $\forall w, w' \in \mathbb{R}^d$
-	\begin{equation*}
-		f(w) \geq f(w') + \langle f(w'), w-w' \rangle +\frac{\mu}{2} ||w - w'||^2
-	\end{equation*}
-	
-\end{assumption}
 
 
 %\section{Headings: first level}
