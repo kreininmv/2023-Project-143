@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex main"] 1677770872 "main.aux" "main.bbl" "main" 1677770928
+["bibtex main"] 1677770872 "main.aux" "main.bbl" "main" 1677771004
   "c:/texlive/2022/texmf-dist/bibtex/bst/natbib/unsrtnat.bst" 1662840588 24550 a41a6405f4de768c43e871d9fbce2bc8 ""
-  "main.aux" 1677770927 1850 e5366659776b6e0e041eb8cb6eac4341 "pdflatex"
+  "main.aux" 1677771004 1850 e5366659776b6e0e041eb8cb6eac4341 "pdflatex"
   "references.bib" 1677492084 1289 ad6d709bdb88990bd70bed7a6ce8a8ab ""
   (generated)
   "main.bbl"
   "main.blg"
-["pdflatex"] 1677770926 "w:/MIPT/6_sem/2023-Project-143/paper/main.tex" "main.pdf" "main" 1677770928
+["pdflatex"] 1677771002 "w:/MIPT/6_sem/2023-Project-143/paper/main.tex" "main.pdf" "main" 1677771004
   "arxiv.sty" 1677479257 7641 73d629a9ecdf79da8148f7f0df8c6662 ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1662839154 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1662838658 2971 def0b6c1f0b107b3b936def894055589 ""
@@ -136,11 +136,11 @@
   "c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1662869536 4635069 7677ee69604aae14ed48b153c111a7f7 ""
   "c:/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1662869738 3059216 105b0c26cd92d1ec27ba149095b337fa ""
   "c:/texlive/2022/texmf.cnf" 1662869510 713 e69b156964470283e0530f5060668171 ""
-  "main.aux" 1677770927 1850 e5366659776b6e0e041eb8cb6eac4341 "pdflatex"
+  "main.aux" 1677771004 1850 e5366659776b6e0e041eb8cb6eac4341 "pdflatex"
   "main.bbl" 1677770872 1746 e6f6bf221af3c67d2d95a392552f3e2a "bibtex main"
-  "main.out" 1677770927 336 9664d23d8cf1d10c93728ecd94b9be94 "pdflatex"
-  "main.tex" 1677770925 8745 1d09a99432f8f388194a501f1b1bd8bc ""
-  "w:/MIPT/6_sem/2023-Project-143/paper/main.tex" 1677770925 8745 1d09a99432f8f388194a501f1b1bd8bc ""
+  "main.out" 1677771004 336 9664d23d8cf1d10c93728ecd94b9be94 "pdflatex"
+  "main.tex" 1677771001 8769 9f1131735713d1303ccd91376aea94bd ""
+  "w:/MIPT/6_sem/2023-Project-143/paper/main.tex" 1677771001 8769 9f1131735713d1303ccd91376aea94bd ""
   (generated)
   "main.aux"
   "main.log"
