@@ -59,7 +59,7 @@ if __name__ == '__main__': # protect your program's entry point
     # Model
     print('==> Building model..')
     # net = VGG('VGG19')
-    # net = ResNet18()
+    net = ResNet18()
     # net = PreActResNet18()
     # net = GoogLeNet()
     # net = DenseNet121()
@@ -72,8 +72,8 @@ if __name__ == '__main__': # protect your program's entry point
     # net = ShuffleNetV2(1)
     # net = EfficientNetB0()
     # net = RegNetX_200MF()
-    net = SimpleDLA()
-    writer = SummaryWriter('SimpleDla')
+    #net = SimpleDLA()
+    #writer = SummaryWriter('SimpleDla')
     net = net.to(device)
     if device == 'cuda':
         net = torch.nn.DataParallel(net)
@@ -89,10 +89,10 @@ if __name__ == '__main__': # protect your program's entry point
         start_epoch = checkpoint['epoch']
     
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=1e-2,
-                          momentum=0.9, weight_decay=5e-4)
+    #optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+    optimizer = optim.AdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
-    num_epoch = 200
+    num_epoch = 50
     
     # Training
     def train(epoch):
@@ -154,7 +154,7 @@ if __name__ == '__main__': # protect your program's entry point
             best_acc = acc
     
     
-    for epoch in range(start_epoch, start_epoch+200):
+    for epoch in range(start_epoch, start_epoch+num_epoch):
         train(epoch)
         test(epoch)
         scheduler.step()
