@@ -39,6 +39,12 @@
 	MIPT\\
 	Moscow, Russia \\
 	\texttt{kreinin.mv@phystech.edu} \\
+	\And
+	Beznosikov A. \\
+	Department of Data Science\\
+	MIPT\\
+	Dolgoprudny, Russia \\
+	\texttt{beznosikov.an@phystech.edu} \\
 }
 \date{}
 
@@ -61,7 +67,7 @@ pdfkeywords={First keyword, Second keyword, More},
 	This paper examines the convergence rate of adaptive gradient methods when a regularization function is added to the target function. This is an area of research, since many machine learning problems use the heuristic, heuristic regularization, and we investigate the theoretical and practical convergence of adaptive gradient methods.
 \end{abstract}
 
-\keywords{Adam \and OASIS \and Regularization \and ADAHessian}
+\keywords{Adam \and OASIS \and Regularization \and ADAHessian \and Weight Decay}
 
 \section{Introduction}
 In machine learning we consider optimization problem
@@ -117,58 +123,6 @@ But we can add regulirazation $r(w)$ -- regularization, and solve the unconstrai
 \end{equation*}
 
 For solving these problems we always scaled adaptive gradients algorithms like ADAM, OASIS, ADAHessian. We investigate how the convergence rate will change when the regularization function is added to these algorithms.
-\if 0
-\begin{algorithm}[H]
-	\caption{Based algorithm}\label{alg:Based}
-	$w_0, D_0, \eta_0$
-	\begin{algorithmic}
-		\For{$k = 1, 2, ...$}
-		\State $D_k$ - update
-		\State $\eta_k$ - update
-		\State Set $w_{k+1} = w_k - \eta_k D_k^{-1} \nabla F(w_k)$
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
-\fi
-
-\if 0
-Examples of similars algorithms.
-\begin{algorithm}[H]
-	\caption{Adam}\label{alg:Adam}
-		\begin{algorithmic}
-		\Require{$\alpha, \beta_1, \beta_2, \epsilon, f$}
-		\State $m_0 = 0$ -- 1-st moment vector
-		\State $v_0 = 0$ -- 2-nd moment vector
-		\State $t = 0$ -- timestep
-		
-		\While {$\theta$ not converged}
-			\State $t = t+1$
-			\State $g_t = \nabla_{\theta} f_t(\theta_{t-1})$
-			\State $m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$
-			\State $v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$
-			\State $\hat{m_t} = \frac{m_t}{1-\beta_1^t}$
-			\State $\hat{v_t} = \frac{v_t}{1-\beta_2^t}$
-			\State $\theta_t = \theta_{t-1} - \alpha \cdot \frac{\hat{m_t}}{\sqrt{v_t} + \epsilon}$
-		\EndWhile
-	\end{algorithmic}
-	\end{algorithm}
-	
-	\begin{algorithm}[H]
-	\caption{OASIS}\label{alg:OASIS}
-	\begin{algorithmic}
-		\Require{$w_0, \eta_0, D_0, \theta_0 = + \infty$}    
-		\State $w_1 = w_0 - \eta \hat{D_0}^{-1} \nabla F(w_0)$
-	
-		\For{$k = 1, 2, ...$}
-		\State $D_k = \beta D_{k-1} + (1-\beta_2) \cdot diag\left( z_k \odot \nabla^2 F(w_k) z_k \right)$
-		\State $(\hat{D_k})_{ii} = max \{|D_k|_{i, i} ; \alpha \}$, $\forall i = \overline{1, d}$
-		\State $\eta_k = min \{ \sqrt{1 + \theta_{k-1}} \cdot \eta_{k-1}; \frac{||w_k - w_{k-1}||_{\hat{D_k}}}{2 ||\nabla F(w_k) - \nabla F(w_{k-1}) ||_{\hat{D_k}}^* } \}$
-		\State $\theta_k = \frac{\eta_k}{\eta_{k-1}}$
-		\EndFor
-		
-	\end{algorithmic}
-\end{algorithm}
-\fi
 
 % В исследуемом нами алгоритме сходимости мы будем исследовать алгоритмы двух следующих видов. В первом функция регуляризации выносится отдельном в пересчете весов модели, во втором функция домножается на обратный "гессиан".
 In the convergence algorithm that we study, we will investigate algorithms of the following two kinds. In the first one, the regularization function is taken out separately in the recalculation of model weights, and in the second one, the function is dominated by the inverse "hessian".
@@ -189,61 +143,13 @@ In the convergence algorithm that we study, we will investigate algorithms of th
 
 
 
-%\section{Headings: first level}
-%\label{sec:headings}
-% See Section \ref{sec:headings}.
-%\subsection{Headings: second level}
-%\subsubsection{Headings: third level}
-%\paragraph{Paragraph}
-%\section{Examples of citations, figures, tables, references}
-%\label{sec:others}
 
-\subsection{Citations}
 
-\cite{kingma2014adam}, \cite{jahani2021doubly}, \cite{sadiev2022stochastic}, \cite{beznosikov2022scaled}, \cite{stich2019unified}
+\section{Experiment}
+% Мы проведем эксперимент, в котором сравним Adam с добавленной L2 регуляризацией с AdamW, при различных learning rate и decoupled weight, также мы сравним его с измененным алгоритмом AdamW, где регуляризатор занесен под гессиан, также мы сравним его при условии, что теперь минимальное собственное число гессиана, это не epsilon, а гиперпараметр decoupled weight.Проведем те же эксперименты со SGD и L2 регуляризацией и SGD с decoupled weitght при тех же параметрах. Все эксперименты будут проводиться на батчах размера 128, на сетке ResNet18, в 200 эпох. Всё это будет реализовано с помощью библиотеки PyTorch на dataset CIFAR10.
 
-%\subsection{Figures}
-%See Figure \ref{fig:fig1}. Here is how you add footnotes. \footnote{Sample of the first footnote.}
-%\begin{figure}
-	%\centering
-	%\includegraphics[width=0.5\textwidth]{../figures/log_reg_cs_exp.eps}
-	%\caption{Sample figure caption.}
-	%\label{fig:fig1}
-%\end{figure}
+We will conduct an experiment in which we compare Adam with added L2 regularization with AdamW, at different learning rate and decoupled weight, also we will compare it with the modified AdamW algorithm where the regularizer is put under the hessian, also we will compare it under the condition that now the minimal eigenvalue of hessian is not epsilon, but decoupled weight hyperparameter.We will conduct the same experiments with SGD and L2 regularization and SGD with decoupled weitght at the same parameters. All experiments will be performed on batches of size 128, on a ResNet18 grid of 200 epochs. All this will be implemented using the PyTorch library on dataset CIFAR10.
 
-%\subsection{Tables}
-%See awesome Table~\ref{tab:table}.
-%The documentation for \verb+booktabs+ (`Publication quality tables in LaTeX') is available from:
-%\begin{center}
-%	%\url{https://www.ctan.org/pkg/booktabs}
-%\end{center}
-
-\if 0
-\begin{table}
-	\caption{Sample table title}
-	\centering
-	\begin{tabular}{lll}
-		\toprule
-		\multicolumn{2}{c}{Part}                   \\
-		\cmidrule(r){1-2}
-		Name     & Description     & Size ($\mu$m) \\
-		\midrule
-		Dendrite & Input terminal  & $\sim$100     \\
-		Axon     & Output terminal & $\sim$10      \\
-		Soma     & Cell body       & up to $10^6$  \\
-		\bottomrule
-	\end{tabular}
-	\label{tab:table}
-\end{table}
-\fi
-\if 0
-\subsection{Lists}
-\begin{itemize}
-	\item Lorem ipsum dolor sit amet
-	\item consectetur adipiscing elit.
-	\item Aliquam dignissim blandit est, in dictum tortor gravida eget. In ac rutrum magna.
-\end{itemize}
-\fi
 
 \bibliographystyle{unsrtnat}
 \bibliography{references}

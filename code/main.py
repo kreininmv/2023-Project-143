@@ -90,7 +90,8 @@ if __name__ == '__main__': # protect your program's entry point
     
     criterion = nn.CrossEntropyLoss()
     #optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
-    optimizer = optim.AdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
+    optimizer = optim.new_AdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
+    #optimizer = optim.AdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
     num_epoch = 50
     

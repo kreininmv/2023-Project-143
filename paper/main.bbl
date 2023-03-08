@@ -1,40 +1,8 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{0}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
-
-\bibitem[Kingma and Ba(2014)]{kingma2014adam}
-Diederik~P Kingma and Jimmy Ba.
-\newblock Adam: A method for stochastic optimization.
-\newblock \emph{arXiv preprint arXiv:1412.6980}, 2014.
-
-\bibitem[Jahani et~al.(2021)Jahani, Rusakov, Shi, Richt{\'a}rik, Mahoney, and
-  Tak{\'a}{\v{c}}]{jahani2021doubly}
-Majid Jahani, Sergey Rusakov, Zheng Shi, Peter Richt{\'a}rik, Michael~W
-  Mahoney, and Martin Tak{\'a}{\v{c}}.
-\newblock Doubly adaptive scaled algorithm for machine learning using
-  second-order information.
-\newblock \emph{arXiv preprint arXiv:2109.05198}, 2021.
-
-\bibitem[Sadiev et~al.(2022)Sadiev, Beznosikov, Almansoori, Kamzolov,
-  Tappenden, and Tak{\'a}{\v{c}}]{sadiev2022stochastic}
-Abdurakhmon Sadiev, Aleksandr Beznosikov, Abdulla~Jasem Almansoori, Dmitry
-  Kamzolov, Rachael Tappenden, and Martin Tak{\'a}{\v{c}}.
-\newblock Stochastic gradient methods with preconditioned updates.
-\newblock \emph{arXiv preprint arXiv:2206.00285}, 2022.
-
-\bibitem[Beznosikov et~al.(2022)Beznosikov, Alanov, Kovalev, Tak{\'a}{\v{c}},
-  and Gasnikov]{beznosikov2022scaled}
-Aleksandr Beznosikov, Aibek Alanov, Dmitry Kovalev, Martin Tak{\'a}{\v{c}}, and
-  Alexander Gasnikov.
-\newblock On scaled methods for saddle point problems.
-\newblock \emph{arXiv preprint arXiv:2206.08303}, 2022.
-
-\bibitem[Stich(2019)]{stich2019unified}
-Sebastian~U Stich.
-\newblock Unified optimal analysis of the (stochastic) gradient method.
-\newblock \emph{arXiv preprint arXiv:1907.04232}, 2019.
 
 \end{thebibliography}
