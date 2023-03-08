@@ -10,14 +10,88 @@ import torchvision.transforms as transforms
 
 import os
 import argparse
+import sys
+
+from myadam import MyAdamW
 
 from models import *
 from tqdm import tqdm
 #from torch.utils import progress_bar
 from torch.utils.tensorboard import SummaryWriter
 
-if __name__ == '__main__': # protect your program's entry point
+
+def test(epoch):
+    global best_acc
+    global test_step
+    net.eval()
+    test_loss = 0
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        loop = tqdm(enumerate(testloader), total=len(testloader), leave=False)
+        for batch_idx, (inputs, targets) in loop:
+            test_step += 1
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = net(inputs)
+            loss = criterion(outputs, targets)
+
+            test_loss += loss.item()
+            _, predicted = outputs.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+            
+            writer.add_scalar('Testing loss', test_loss/(batch_idx+1),global_step=test_step)
+            writer.add_scalar('Testing accuracy', 100.*correct/total, global_step=test_step)
+            
+            loop.set_description(f"{full_name}Epoch (Test)[{epoch}/{num_epoch}]")
+            loop.set_postfix(loss= test_loss/(batch_idx+1), acc=100.*correct/total,correct=correct, total=total)
+
+    # Save checkpoint.
+    acc = 100.*correct/total
+    if acc > best_acc:
+        print('Saving..')
+        state = {
+            'net': net.state_dict(),
+            'acc': acc,
+            'epoch': epoch,
+        }
+        if not os.path.isdir('checkpoint'):
+            os.mkdir('checkpoint')
+        torch.save(state, f'./checkpoint/ckpt{full_name}.pth')
+        best_acc = acc
+
+# Training
+def train(epoch):
+    #print('\nEpoch: %d' % epoch)
+    global train_step
+    net.train()
+    train_loss = 0
+    correct = 0
+    total = 0
+    loop = tqdm(enumerate(trainloader), total=len(trainloader), leave=False)
     
+    for batch_idx, (inputs, targets) in loop:
+        inputs, targets = inputs.to(device), targets.to(device)
+        optimizer.zero_grad()
+        outputs = net(inputs)
+        loss = criterion(outputs, targets)
+        loss.backward()
+        optimizer.step()
+        train_step += 1
+
+        train_loss += loss.item()
+        _, predicted = outputs.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
+        
+        writer.add_scalar('Training loss', train_loss/(batch_idx+1),global_step=train_step)
+        writer.add_scalar('Training accuracy', 100.*correct/total, global_step=train_step)
+
+        loop.set_description(f"{full_name} Epoch (Train)[{epoch}/{num_epoch}]")
+        loop.set_postfix(loss= train_loss/(batch_idx+1), acc=100.*correct/total, correct=correct, total=total)
+
+
+if __name__ == '__main__': # protect your program's entry point
 
     parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
     parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
@@ -89,74 +163,33 @@ if __name__ == '__main__': # protect your program's entry point
         start_epoch = checkpoint['epoch']
     
     criterion = nn.CrossEntropyLoss()
+    
     #optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
-    optimizer = optim.new_AdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
+    optimizer = MyAdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
     #optimizer = optim.AdamW(net.parameters(), lr=0.01, betas = (0.9, 0.999), eps=1e-8, weight_decay=2*1e-2)
+    
+    num_epoch = 1
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
-    num_epoch = 50
-    
-    # Training
-    def train(epoch):
-        #print('\nEpoch: %d' % epoch)
-        net.train()
-        train_loss = 0
-        correct = 0
-        total = 0
-        loop = tqdm(enumerate(trainloader), total=len(trainloader), leave=False)
-        for batch_idx, (inputs, targets) in loop:
-            inputs, targets = inputs.to(device), targets.to(device)
-            optimizer.zero_grad()
-            outputs = net(inputs)
-            loss = criterion(outputs, targets)
-            loss.backward()
-            optimizer.step()
-    
-            train_loss += loss.item()
-            _, predicted = outputs.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
-            
-            loop.set_description(f"Epoch (Train)[{epoch}/{num_epoch}]")
-            loop.set_postfix(loss= train_loss/(batch_idx+1), acc=100.*correct/total, correct=correct, total=total)
-    
-    def test(epoch):
-        global best_acc
-        net.eval()
-        test_loss = 0
-        correct = 0
-        total = 0
-        with torch.no_grad():
-            loop = tqdm(enumerate(testloader), total=len(testloader), leave=False)
-            for batch_idx, (inputs, targets) in loop:
-                inputs, targets = inputs.to(device), targets.to(device)
-                outputs = net(inputs)
-                loss = criterion(outputs, targets)
-    
-                test_loss += loss.item()
-                _, predicted = outputs.max(1)
-                total += targets.size(0)
-                correct += predicted.eq(targets).sum().item()
-    
-                loop.set_description(f"Epoch (Test)[{epoch}/{num_epoch}]")
-                loop.set_postfix(loss= test_loss/(batch_idx+1), acc=100.*correct/total, correct=correct, total=total)
-    
-        # Save checkpoint.
-        acc = 100.*correct/total
-        if acc > best_acc:
-            print('Saving..')
-            state = {
-                'net': net.state_dict(),
-                'acc': acc,
-                'epoch': epoch,
-            }
-            if not os.path.isdir('checkpoint'):
-                os.mkdir('checkpoint')
-            torch.save(state, './checkpoint/ckpt.pth')
-            best_acc = acc
     
     
-    for epoch in range(start_epoch, start_epoch+num_epoch):
-        train(epoch)
-        test(epoch)
-        scheduler.step()
-    
+    betas = (0.9, 0.999)
+    learning_rates = [0.1, 0.01, 0.001]
+    weight_decayes = [0.1, 0.01, 0.001]
+    optimizers = [optim.AdamW, MyAdamW, optim.Adam, optim.SGD]
+    names = ['MyAdamW', 'AdamW', 'Adam+L2', 'SGD + L2']
+
+    #optimizer = optim.SGD()
+    for lr in learning_rates:
+        for wd in weight_decayes:
+            for opt, name in zip(optimizers, names):
+                
+                optimizer = opt(net.parameters(), lr=lr, betas=betas, eps=1e-8, weight_decay=wd)
+                full_name = f'{name} - lr({lr}), weight_decay({wd})'
+                path = f'runs/cifar10/{full_name}'
+                writer = SummaryWriter(path)
+                train_step = 0
+                test_step = 0
+                for epoch in range(start_epoch, start_epoch + num_epoch):
+                    train(epoch)
+                    test(epoch)
+                    scheduler.step()
