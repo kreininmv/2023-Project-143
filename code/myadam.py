@@ -157,7 +157,7 @@ def _single_tensor_myadamw(params: List[Tensor],
             assert param.is_cuda and step_t.is_cuda, "If capturable=True, params and state_steps must be CUDA tensors."
 
         if torch.is_complex(param):
-            grad = torchex
+            grad = torch.view_as_real(grad)
             exp_avg = torch.view_as_real(exp_avg)
             exp_avg_sq = torch.view_as_real(exp_avg_sq)
             param = torch.view_as_real(param)
@@ -216,8 +216,8 @@ def _single_tensor_myadamw(params: List[Tensor],
             
             ### OUR CHANGING!!!
             tmp = exp_avg + weight_decay * param
-
             param.addcdiv_(tmp, denom, value=-step_size)
+            ###
 
 def _multi_tensor_myadamw(params: List[Tensor],
                         grads: List[Tensor],
@@ -326,3 +326,4 @@ def _multi_tensor_myadamw(params: List[Tensor],
         new_exp_avgs = torch._foreach_add(exp_avgs, wd)
 
         torch._foreach_addcdiv_(params, new_exp_avgs, denom, step_size)
+        ###
