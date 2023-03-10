@@ -254,7 +254,7 @@ def _multi_tensor_myadamw(params: List[Tensor],
 
     # Perform stepweight decay
     #torch._foreach_mul_(params, 1 - lr * weight_decay)
-    torch._foreach_mul_(params, 1)
+    #torch._foreach_mul_(params, 1)
     
     # Decay the first and second moment running average coefficient
     torch._foreach_mul_(exp_avgs, beta1)

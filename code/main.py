@@ -60,6 +60,7 @@ def test(epoch):
             os.mkdir('checkpoint')
         torch.save(state, f'./checkpoint/ckpt.pth')
         best_acc = acc
+    return test_loss, correct, total
 
 # Training
 def train(epoch):
@@ -91,6 +92,7 @@ def train(epoch):
         loop.set_description(f"{full_name} Epoch (Train)[{epoch}/{num_epoch}]")
         loop.set_postfix(loss= train_loss/(batch_idx+1), acc=100.*correct/total, correct=correct, total=total)
 
+    return train_loss, correct, total
 
 if __name__ == '__main__': # protect your program's entry point
 
@@ -155,7 +157,7 @@ if __name__ == '__main__': # protect your program's entry point
     
     betas = (0.9, 0.999)
     learning_rates = [0.1, 0.01, 0.001]
-    weight_decayes = [0.1, 0.01, 0.001]
+    weight_decayes = [0.05, 0.005, 0.0005]
     optimizers = [optim.AdamW, MyAdamW, optim.Adam, optim.SGD]
     names = ['MyAdamW', 'AdamW', 'Adam+L2', 'SGD + L2']
 
@@ -174,7 +176,15 @@ if __name__ == '__main__': # protect your program's entry point
                 writer = SummaryWriter(path)
                 train_step = 0
                 test_step = 0
+                
                 for epoch in range(start_epoch, start_epoch + num_epoch):
-                    train(epoch)
-                    test(epoch)
+                    loss_train, correct_train, total_train = train(epoch)
+                    loss_test, correct_test, total_test = test(epoch)
+
+                    writer.add_scalar('Testing loss (epoch)', loss_test,epoch=epoch)
+                    writer.add_scalar('Testing accuracy (epocj)', 100.*correct_test/total_test, epoch=epoch)
+                    
+                    writer.add_scalar('Training loss (epoch)', loss_train,epoch=epoch)
+                    writer.add_scalar('Training accuracy (epoch)', 100.*correct_train/total_train, epoch=epoch)
+                    
                     scheduler.step()

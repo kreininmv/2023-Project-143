@@ -70,7 +70,7 @@ pdfkeywords={First keyword, Second keyword, More},
 \keywords{Adam \and OASIS \and Regularization \and ADAHessian \and Weight Decay}
 
 \section{Introduction}
-In machine learning we consider optimization problem
+In machine learning we consider unconstrained optimization problem
 \begin{equation*}
 	\min_{w \in \mathbb{R}^d} f(w)
 \end{equation*}
@@ -78,7 +78,7 @@ Problems of the form (1) cover a plethora of applications, including empirical r
 deep learning, and supervised learning tasks such as regularized least squares or logistic regression. This minimization problem can be difficult to solve, particularly when the number of training
 samples n, or problem dimension d, is large, or if the problem is nonconvex.
 
-There are second order preconditioners methods for solving this problem, such as Adam, OASIS, AdaHessian. 
+There are second order preconditioners methods for solving this problem, such as Adam \citep{kingma2014adam} , OASIS \citep{}, AdaHessian. 
 
 Throughout this work we assume that each f $:\mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable and also L-smooth. This is formalized in the following assumption.
 
