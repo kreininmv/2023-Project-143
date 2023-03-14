@@ -95,7 +95,6 @@ def train(epoch):
     return train_loss, correct, total
 
 if __name__ == '__main__': # protect your program's entry point
-
     parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
     parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
     parser.add_argument('--resume', '-r', action='store_true',
@@ -105,86 +104,80 @@ if __name__ == '__main__': # protect your program's entry point
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     best_acc = 0  # best test accuracy
     start_epoch = 0  # start from epoch 0 or last checkpoint epoch
-    
-    # Data
-    print('==> Preparing data..')
-    transform_train = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    ])
-    
-    transform_test = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    ])
-    
-    trainset = torchvision.datasets.CIFAR10(
-        root='./data', train=True, download=True, transform=transform_train)
-    trainloader = torch.utils.data.DataLoader(
-        trainset, batch_size=128, shuffle=True, num_workers=2)
-    
-    testset = torchvision.datasets.CIFAR10(
-        root='./data', train=False, download=True, transform=transform_test)
-    testloader = torch.utils.data.DataLoader(
-        testset, batch_size=100, shuffle=False, num_workers=2)
-    
-    classes = ('plane', 'car', 'bird', 'cat', 'deer',
-               'dog', 'frog', 'horse', 'ship', 'truck')
-    
-    # Model
-    print('==> Building model..')
-    net = ResNet18()
 
-    net = net.to(device)
-    if device == 'cuda':
-        net = torch.nn.DataParallel(net)
-        cudnn.benchmark = True
-        
-    if args.resume:
-        # Load checkpoint.
-        print('==> Resuming from checkpoint..')
-        assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-        checkpoint = torch.load('./checkpoint/ckpt.pth')
-        net.load_state_dict(checkpoint['net'])
-        best_acc = checkpoint['acc']
-        start_epoch = checkpoint['epoch']
-    
+
     criterion = nn.CrossEntropyLoss() 
-    num_epoch = 1
-    
-    
+    num_epoch = 100
+
     betas = (0.9, 0.999)
-    learning_rates = [0.1, 0.01, 0.001]
-    weight_decayes = [0.05, 0.005, 0.0005]
-    optimizers = [optim.AdamW, MyAdamW, optim.Adam, optim.SGD]
-    names = ['MyAdamW', 'AdamW', 'Adam+L2', 'SGD + L2']
+    learning_rates = [0.01, 0.005, 0.0005]
+    weight_decayes = [0.005, 0.0005, 0.00005]
+    optimizers = [optim.SGD, optim.AdamW, MyAdamW, optim.Adam]
+    names = ['SGD + L2', 'AdamW', 'MyAdamW', 'Adam+L2']
 
     for lr in learning_rates:
         for wd in weight_decayes:
             for opt, name in zip(optimizers, names):
+                # Data
+                print('==> Preparing data..')
+                transform_train = transforms.Compose([
+                    transforms.RandomCrop(32, padding=4),
+                    transforms.RandomHorizontalFlip(),
+                    transforms.ToTensor(),
+                    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+                ])
+
+                transform_test = transforms.Compose([
+                    transforms.ToTensor(),
+                    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+                ])
+
+                trainset = torchvision.datasets.CIFAR10(
+                    root='./data', train=True, download=True, transform=transform_train)
+                trainloader = torch.utils.data.DataLoader(
+                    trainset, batch_size=128, shuffle=True, num_workers=2)
+
+                testset = torchvision.datasets.CIFAR10(
+                    root='./data', train=False, download=True, transform=transform_test)
+                testloader = torch.utils.data.DataLoader(
+                    testset, batch_size=100, shuffle=False, num_workers=2)
+
+                classes = ('plane', 'car', 'bird', 'cat', 'deer',
+                   'dog', 'frog', 'horse', 'ship', 'truck')
+
+                # Model
+                print('==> Building model..')
+                net = ResNet18()
+
+                net = net.to(device)
+
+                if device == 'cuda':
+                    net = torch.nn.DataParallel(net)
+                    cudnn.benchmark = True
+
                 if name == 'SGD + L2':
-                    optimizer = opt(net.parameters(), lr=lr, eps=1e-8, weight_decay=wd)
+                    optimizer = opt(net.parameters(), lr=lr, weight_decay=wd)
                 else:
                     optimizer = opt(net.parameters(), lr=lr, betas=betas, eps=1e-8, weight_decay=wd)
-                
-                scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200) 
+
+                scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200, eta_min=0.00001) 
 
                 full_name = f'{name} - lr({lr}), weight_decay({wd})'
                 path = f'runs/cifar10/{full_name}'
                 writer = SummaryWriter(path)
                 train_step = 0
                 test_step = 0
-                
+
                 for epoch in range(start_epoch, start_epoch + num_epoch):
                     loss_train, correct_train, total_train = train(epoch)
                     loss_test, correct_test, total_test = test(epoch)
 
-                    writer.add_scalar('Testing loss (epoch)', loss_test,epoch=epoch)
-                    writer.add_scalar('Testing accuracy (epocj)', 100.*correct_test/total_test, epoch=epoch)
-                    
-                    writer.add_scalar('Training loss (epoch)', loss_train,epoch=epoch)
-                    writer.add_scalar('Training accuracy (epoch)', 100.*correct_train/total_train, epoch=epoch)
-                    
+                    writer.add_scalar('Testing loss (epoch)', loss_test,epoch)
+                    writer.add_scalar('Testing accuracy (epoch)', 100.*correct_test/total_test, epoch)
+
+                    writer.add_scalar('Training loss (epoch)', loss_train, epoch)
+                    writer.add_scalar('Training accuracy (epoch)', 100.*correct_train/total_train, epoch)
+
                     scheduler.step()
+
+
