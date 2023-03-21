@@ -38,7 +38,18 @@ Methods with preconditioning with weight decay regularization
 
 Research publications
 ===============================
-1. 
+1. ADAM: A METHOD FOR STOCHASTIC OPTIMIZATION: https://arxiv.org/pdf/1412.6980.pdf
+
+2. Doubly Adaptive Scaled Algorithm for Machine Learning Using Second-Order Information: https://arxiv.org/pdf/2109.05198.pdf
+
+3. Stochastic Gradient Methods with Preconditioned Updates: https://arxiv.org/pdf/2206.00285.pdf
+
+4. On Scaled Methods for Saddle Point Problems: https://arxiv.org/pdf/2206.08303.pdf
+
+5. DECOUPLED WEIGHT DECAY REGULARIZATION:https://openreview.net/pdf?id=Bkg6RiCqY7
+
+6. STABLE WEIGHT DECAY REGULARIZATION: https://openreview.net/pdf?id=YzgAOeA67xX
+
 
 
 Presentations at conferences on the topic of research
