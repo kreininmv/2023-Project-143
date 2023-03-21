@@ -3,6 +3,7 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: unsrtnat.bst
 Database file #1: references.bib
+Warning--I didn't find a database entry for ""
 You've used 1 entry,
             2481 wiz_defined-function locations,
             556 strings with 4544 characters,
@@ -44,3 +45,4 @@ warning$ -- 0
 while$ -- 2
 width$ -- 0
 write$ -- 19
+(There was 1 warning)

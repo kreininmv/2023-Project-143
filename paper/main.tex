@@ -18,6 +18,8 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
+\newtheorem{theorem}{Theorem}
+
 \newtheorem*{assumption*}{\assumptionnumber}
 \providecommand{\assumptionnumber}{}
 \makeatletter
@@ -149,6 +151,158 @@ In the convergence algorithm that we study, we will investigate algorithms of th
 % Мы проведем эксперимент, в котором сравним Adam с добавленной L2 регуляризацией с AdamW, при различных learning rate и decoupled weight, также мы сравним его с измененным алгоритмом AdamW, где регуляризатор занесен под гессиан, также мы сравним его при условии, что теперь минимальное собственное число гессиана, это не epsilon, а гиперпараметр decoupled weight.Проведем те же эксперименты со SGD и L2 регуляризацией и SGD с decoupled weitght при тех же параметрах. Все эксперименты будут проводиться на батчах размера 128, на сетке ResNet18, в 200 эпох. Всё это будет реализовано с помощью библиотеки PyTorch на dataset CIFAR10.
 
 We will conduct an experiment in which we compare Adam with added L2 regularization with AdamW, at different learning rate and decoupled weight, also we will compare it with the modified AdamW algorithm where the regularizer is put under the hessian, also we will compare it under the condition that now the minimal eigenvalue of hessian is not epsilon, but decoupled weight hyperparameter.We will conduct the same experiments with SGD and L2 regularization and SGD with decoupled weitght at the same parameters. All experiments will be performed on batches of size 128, on a ResNet18 grid of 200 epochs. All this will be implemented using the PyTorch library on dataset CIFAR10.
+
+\section{Theory}
+To proof this algorigthm we use simplified form of AdamW algorithm
+\begin{algorithm}[H]
+\caption{AdamW}\label{alg:AdamW}
+    
+    \begin{algorithmic}
+    \Require{$r, \varepsilon, f$}    
+    \While {$w$ not converged}
+        \State $t = t+1$
+        \State $D_t = \text{diag}(|\nabla f(w_t)|_i)$
+        \State $w_t = w_{t-1} - \eta \cdot \nabla f(w_t) D_t^{-1}  -\lambda \nabla r(w_t)$ 
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+
+Suppose the Assumption 1, 2, 5 and let $\varepsilon > 0$ and let the step-size satisfy
+\begin{equation*}
+    \eta < \frac{2 \alpha}{L + l \cdot \alpha} 
+\end{equation*}
+Then, the number of iterations performed by AdamW algorithm, starting from an initial point $w_0 \in \mathbb{R}^d$ with $\Delta_0 = \tilde{F}(w_0) - \tilde{F}^*$, required to obtain and $\varepsilon$-approximate solution of the convex problem (link here to problem 1) can be bounded by
+\begin{equation*}
+      T = \mathcal{O}\left( \frac{2\Delta_0 \Gamma \alpha } {(2\alpha - \tilde{L}\eta) \eta \varepsilon} \right)
+\end{equation*}
+
+\end{theorem}
+\begin{proof}
+
+Let's write first assumption for step t and $t+1$:
+
+\begin{equation*}
+    f(w_{t+1}) \leq f(w_t) + \langle \nabla f(w_t), w_{t+1} - w_t \rangle + \frac{L}{2}||w_{t+1} - w_t ||^2
+\end{equation*}
+Okay, by definition for our algorithm we have:
+
+\begin{equation*}
+w_{t+1} - w_t = -\eta D_t^{-1} \nabla f(w_t) - \eta \nabla r(w_t)    
+\end{equation*}
+
+and 
+
+\begin{equation*}
+\nabla f(w_t) = \frac{1}{\eta} D^t(w_t - w_{t+1}) - D^t \nabla r(w_t)
+\end{equation*}
+
+Okay, now let's replace $\nabla f(w_t)$ and $I \leq \frac{D_t}{\alpha}$
+\begin{equation*}
+    f(w_{t+1}) \leq f(w_t) + \langle \frac{1}{\eta}D_t(w_t - w_{t+1}) - D_t\nabla r(w_t), w_{t+1} - w_t \rangle + \frac{L}{2 \alpha} ||w_{t+1} - w_t||_{D_t}^2
+\end{equation*}
+
+\begin{equation*}
+    f(w_{t+1}) \leq f(w_t) + \left(\frac{L}{2 \alpha} - \frac{1}{\eta} \right) ||w_{t+1} - w_t||_{D_t}^2 - \langle D_t \nabla r(w_t), w_{t+1} - w_t \rangle
+\end{equation*}
+
+Lets define new variable $\tilde{r} : \nabla \tilde{r} = D_t \nabla r(w_t)$. Then rewrite step using the variable and 5-th assumption.
+\begin{equation*}
+    \tilde{r}(w_{t+1}) \leq \tilde{r}(w_t) + \langle \tilde{r}(w_t), w_{t+1} - w_t \rangle + \frac{l}{2} (w_{t+1} - w_t)^T D_t (w_{t+1} - w_t)
+\end{equation*}
+
+\begin{equation*}
+    f(w_{t+1}) \leq f(w_t) + \left( \frac{L}{2\alpha} - \frac{1}{\eta} \right) ||w_{t+1} - w_t||_{D_t}^2 + \tilde{r}(w_t) - \tilde{r}(w_{t+1}) + \frac{l}{2}||w_{t+1}-w_t||_{D_t}^2
+\end{equation*}
+
+$\tilde{F}(w) = f(w) + \tilde{r}(w)$, $F(w) = f(w) + r(w)$, ($\tilde{L}=L + l \alpha$), we get:
+
+\begin{equation*}
+    \tilde{F}(w_{t+1}) \leq \tilde{F}(w_t) + \left( \frac{\tilde{L}}{2\alpha} - \frac{1}{\eta}  \right) ||w_{t+1} - w_t||_{D_t}^2
+\end{equation*}
+
+
+\begin{equation*}
+    \left(\frac{1}{\eta} - \frac{\tilde{L}}{2\alpha}   \right) ||w_{t+1} - w_t||_{D_t}^2 \leq \tilde{F}(w_t) - \tilde{F}(w_{t+1})
+\end{equation*}
+
+\begin{equation*}
+    \frac{\eta^2  (T+1)}{\Gamma}\left(\frac{1}{\eta} - \frac{\tilde{L}}{2\alpha}   \right)\cdot\min_{k = 0, T} ||\nabla f(w_t) + \nabla \tilde{r}(w_t)||^2 \leq \frac{\eta^2}{\Gamma}\left(\frac{1}{\eta} - \frac{\tilde{L}}{2\alpha}   \right)\cdot\sum\limits_{t = 0}^T ||\nabla f(w_t) + \nabla \tilde{r}(w_t)||^2 \leq \tilde{F}(w_0) - \tilde{F}(w_*)
+\end{equation*}
+
+
+\begin{equation*}
+    \min_{t = 0, T} ||\nabla f(w_t) + \nabla \tilde{r}(w_t)||^2 \leq \frac{(\tilde{F}(w_0) - \tilde{F}(w_*))\Gamma}{(\frac{1}{\eta} - \frac{\tilde{L}}{2\alpha}) \eta^2 (T+1)} = \varepsilon
+\end{equation*}
+
+\begin{equation*}
+    T + 1 \geq \frac{\Delta_0 \Gamma}{(\frac{1}{\eta} - \frac{\tilde{L}}{2\alpha}) \eta^2 \varepsilon}
+\end{equation*}
+
+Then:
+\begin{equation*}
+      T = \mathcal{O}\left( \frac{2\Delta_0 \Gamma \alpha } {(2\alpha - \tilde{L}\eta) \eta \varepsilon} \right)
+\end{equation*}
+\end{proof}
+
+\begin{theorem}
+    Suppose the Assumption 1, 2, 4, 5 and let $\varepsilon > 0$ and let the step-size satisfy
+    \begin{equation*}
+        \eta \leq \frac{2 \alpha}{\tilde{L}}
+    \end{equation*}
+    Then, the number of iterations performed by AdamW algorithm, starting from an initial point $w_0 \in \mathbb{R}^d$ with $\Delta_0 = \tilde{F}(w_0) - \tilde{F}^*$, required to obtain and $\varepsilon$-approximate solution of the convex problem (link here to problem 1) can be bounded by
+    \begin{equation*}
+        T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
+    \end{equation*}
+\end{theorem}
+
+\begin{proof}
+    Assume 
+    \begin{equation}
+    \nabla \tilde{F} = \nabla f + \nabla \tilde{r}    
+    \end{equation}
+    
+    \begin{equation}
+    L + ||D_t||l = \tilde{L}        
+    \end{equation}
+    \begin{equation*}
+    w_{t+1} - w_t = -\eta D_t^{-1} \nabla r(w_t) - \eta \nabla r(w_t) = -\eta D_t^{-1} (\nabla f + \nabla \tilde{r})(w_t) = -\eta D_t^{-1} \nabla \tilde{F}(w_t)    
+    \end{equation*}
+    Then we write $\tilde{L}$-smoothness for $\tilde{F}$ 
+    \begin{equation*}
+        \tilde{F}(w_{t+1}) - \tilde{F}(w_t) \leq  \langle \nabla \tilde{F}(w_t), w_{t+1} - w_t \rangle + \frac{\tilde{L}}{2} ||w_{t+1} - w_t||^2
+    \end{equation*}
+    \begin{equation*}
+        \tilde{F}(w_{t+1}) - \tilde{F}(w_t) \leq - \langle \frac{1}{\eta} D_t(w_{t+1} - w_t), w_{t+1} - w_t \rangle + \frac{\tilde{L}}{2} ||w_{t+1} - w_t||^2 = (\frac{\tilde{L}}{2 \alpha} - \frac{1}{\eta}) ||w_{t+1} - w_t||^2_{D_t} 
+    \end{equation*}
+    \begin{equation*}
+        = (\frac{\tilde{L}}{2 \alpha} - \frac{1}{\eta}) ||w_{t+1} - w_t||^2_{D_t} = (\frac{\tilde{L}}{2 \alpha} - \frac{1}{\eta}) ||-\eta D_t^{-1} \nabla \tilde{F}(w_t)||_{D_t}^2  \leq (\frac{\tilde{L}}{2 \alpha} - \frac{1}{\eta}) \eta^2 ||\nabla \tilde{F}(w_t)||^2_{D_t^{-1}}
+    \end{equation*}
+    Then we use PL-condition for the function $\tilde{F}$:
+    \begin{equation*}
+        ||\nabla \tilde{F}(w_t)||_{D_t^{-1}}^2 \geq 2 \mu (\tilde{F}(w_t) - \tilde{F}^*)
+    \end{equation*}
+
+    \begin{equation*}
+    \tilde{F}(w_{t}) -  F^* \ge \tilde{F}(w_{t+1}) - \tilde{F}^* + (\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha}) \eta^2 2 \mu (\tilde{F}(w_t) - \tilde{F}^*) = \left( 1 +  2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha}) \right) (\tilde{F}(w_{t+1}) - \tilde{F}^*)        
+    \end{equation*}
+
+
+    \begin{equation*}
+    \epsilon \ge \Delta_0 \left( 1 +  2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha}) \right)^{-T} \ge (\tilde{F}(w_{T}) - \tilde{F}^*)        
+    \end{equation*}
+
+    \begin{equation*}
+    T = \frac{\ln \frac{\Delta_0}{\epsilon}}{\ln(1 + 2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha}))} \approx \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})}        
+    \end{equation*}
+    Then:
+    \begin{equation*}
+    T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
+    \end{equation*}
+\end{proof}
+
+
 
 
 \bibliographystyle{unsrtnat}

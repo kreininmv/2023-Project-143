@@ -214,10 +214,32 @@ def _single_tensor_myadamw(params: List[Tensor],
             else:
                 denom = (exp_avg_sq.sqrt() / bias_correction2_sqrt).add_(eps)
             
-            ### OUR CHANGING!!!
-            tmp = exp_avg + weight_decay * param
-            param.addcdiv_(tmp, denom, value=-step_size)
-            ###
+            
+            ### PROBABILITY ALGORITHM!!! ###
+            vera = torch.randint(0, 3, (1,))
+            if int(vera) == 0:
+                # под гессиан
+                ### OUR CHANGING!!!
+                tmp = exp_avg + weight_decay * param
+                param.addcdiv_(tmp, denom, value=-step_size)
+                ###
+            elif int(vera) == 1:
+                # и туда и сюда
+                ### OUR CHANGING!!!
+                param.mul_(1 - lr * weight_decay)
+                tmp = exp_avg + weight_decay * param
+                param.addcdiv_(tmp, denom, value=-step_size)
+                ###
+            elif int(vera) == 2:
+                # только снаружи
+                ### OUR CHANGING!!!
+                param.mul_(1 - lr * weight_decay)
+                param.addcdiv_(exp_avg, denom, value=-step_size)
+                ###
+            elif int(vera) == 3:
+                param.addcdiv_(exp_avg, denom, value=-step_size)
+
+            
 
 def _multi_tensor_myadamw(params: List[Tensor],
                         grads: List[Tensor],
@@ -321,9 +343,38 @@ def _multi_tensor_myadamw(params: List[Tensor],
             torch._foreach_div_(exp_avg_sq_sqrt, bias_correction2_sqrt)
             denom = torch._foreach_add(exp_avg_sq_sqrt, eps)
         
+        ''' LAST CENTURY TECHNOLOGY
         ### OUR CHANGING!
         wd = torch._foreach_mul(params, weight_decay)
         new_exp_avgs = torch._foreach_add(exp_avgs, wd)
 
         torch._foreach_addcdiv_(params, new_exp_avgs, denom, step_size)
         ###
+        '''
+
+        ### PROBABILITY ALGORITHM!!! ###
+        vera = torch.randint(0, 3, (1,))
+        if int(vera) == 0:
+            # под гессиан
+            ### OUR CHANGING!!!
+            wd = torch._foreach_mul(params, weight_decay)
+            new_exp_avgs = torch._foreach_add(exp_avgs, wd)
+            torch._foreach_addcdiv_(params, new_exp_avgs, denom, step_size)
+            ###
+        elif int(vera) == 1:
+            # и туда и сюда
+            ### OUR CHANGING!!!
+            torch._foreach_mul_(params, 1 - lr * weight_decay)
+            wd = torch._foreach_mul(params, weight_decay)
+            new_exp_avgs = torch._foreach_add(exp_avgs, wd)
+            torch._foreach_addcdiv_(params, new_exp_avgs, denom, step_size)
+            ###
+        elif int(vera) == 2:
+            # только снаружи
+            ### OUR CHANGING!!!
+            torch._foreach_mul_(params, 1 - lr * weight_decay)
+            torch._foreach_addcdiv_(params, exp_avgs, denom, step_size)
+            ###
+        elif int(vera) == 3:
+            torch._foreach_addcdiv_(params, exp_avgs, denom, step_size)
+

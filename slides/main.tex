@@ -1,192 +1,214 @@
-\documentclass[10pt,pdf,hyperref={unicode}]{beamer}
-
-\mode<presentation>
-{
-\usetheme{boxes}
-\beamertemplatenavigationsymbolsempty
-
-\setbeamertemplate{footline}[page number]
-\setbeamersize{text margin left=0.5em, text margin right=0.5em}
-}
-
+\documentclass{beamer}
+\usepackage{bbm}
 \usepackage[utf8]{inputenc}
-\usepackage[english, russian]{babel}
-\usepackage{bm}
-\usepackage{multirow}
-\usepackage{ragged2e}
-\usepackage{indentfirst}
-\usepackage{multicol}
-\usepackage{subfig}
-\usepackage{amsmath,amssymb}
-\usepackage{enumerate}
-\usepackage{mathtools}
-\usepackage{comment}
-\usepackage{multicol}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{amscd,amssymb}
+\usepackage{amsfonts,amsmath,array}
+\usepackage[dvips]{graphicx}
+\usepackage{longtable,wrapfig}
+\usepackage{graphicx}
+\usepackage{sidecap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
 
-\usepackage[all]{xy}
 
-\usepackage{tikz}
-\usetikzlibrary{positioning,arrows}
+%beamer  theme's used to be here :)
+%\usetheme{mipt_beamer}
+\usetheme{Boadilla}
+\title{Метрический анализ пространства параметров глубоких нейросетей.}
+\author{Насыров~Э.Р.}
+\date{March 14, 2045} %\today
 
-\tikzstyle{name} = [parameters]
-\definecolor{name}{rgb}{0.5,0.5,0.5}
+\institute{МФТИ}
+\date{\today}
 
-\usepackage{caption}
-\captionsetup{skip=0pt,belowskip=0pt}
-
-\newtheorem{rustheorem}{Теорема}
-\newtheorem{russtatement}{Утверждение}
-\newtheorem{rusdefinition}{Определение}
-
-% colors
-\definecolor{darkgreen}{rgb}{0.0, 0.2, 0.13}
-\definecolor{darkcyan}{rgb}{0.0, 0.55, 0.55}
-
-\AtBeginEnvironment{figure}{\setcounter{subfigure}{0}}
-
-\captionsetup[subfloat]{labelformat=empty}
-
-%----------------------------------------------------------------------------------------------------------
-
-\title[Пример слайдов по работе]{Пример слайдов по работе \\ курса}
-\author{И.\,О.\,Фамилия}
-
-\institute[]{Московский физико-технический институт}
-\date[2022]{\small 10\;февраля\;2022\,г.}
-
-%---------------------------------------------------------------------------------------------------------
 \begin{document}
+\frame{\titlepage}
 
-\begin{frame}
-\titlepage
+\begin{frame}{Содержание}
+    \begin{tableofcontents}
+        \section{Введение}
+        \section{Методы улучшения обучения}
+            %\subsection{Актуальность темы}
+            %\subsection{Задача выделения сообществ}
+            %\subsection{Алгоритмы выделения сообществ в графах}
+            %\subsection{Лувенский алгоритм}
+            %\subsection{Алгоритмы выделения сообществ в гиперграфах}
+        \section{Мотивация}
+        \section{Постановка задачи}
+        %\section{Постановка задачи}
+        %    \subsection{Цели и задачи}
+        %    \subsection{Метрики объединения сообществ}
+        %\section{Результаты экспериментов}
+        %\section{Выводы}
+        \section{Используемые модели}
+        \section{Данные}
+        \section{Планируемые результаты}
+        
+            
+    \end{tableofcontents}
 \end{frame}
 
-%----------------------------------------------------------------------------------------------------------
-\section{Слайд об исследованиях}
-\begin{frame}{Слайд об исследованиях}
-\bigskip
-Исследуется проблема \ldots.
-\begin{block}{Цель исследования~---}
-предложить метод \ldots.
-\end{block}
-\begin{block}{Требуется предложить}
-\justifying
-\begin{enumerate}[1)]
-\item метод \ldots,
-\item метод \ldots,
-\item метод \ldots.
-\end{enumerate}
-\end{block}
-\begin{block}{Решение}
-Для \ldots.
-\end{block}
-\end{frame}
 
-%---------------------------------------------------------------------------------------------------------
-\section{Постановка задачи \ldots}
-\begin{frame}{Постановка задачи \ldots}
-Заданы
-\begin{enumerate}[1)]
-    \item признаки \ldots,
-    \item целевая переменная \ldots,
-    \item \ldots.
-\end{enumerate}
-
-\ldots
-
-\bigskip
-
-Требуется выбрать модель \ldots из множества
-\[
-	\mathfrak{G} = \left\{\mathbf{g}| \mathbf{g}:\mathbb{R}^{n} \to \mathbb{Y}^\prime\right\}.
-\]
-Оптимизационная задача \ldots:
-\[
-	\mathbf{g} = \arg\min_{\mathbf{g} \in \mathfrak{G}} \mathcal{L}\bigr(\ldots\bigr),
-\]
-где $\mathcal{L}$~--- функция ошибки.
-
-\bigskip
-\footnotetext[1]{\textit{Lopez-Paz D., Bottou L., Scholkopf B., Vapnik V.} Unifying distillation and privileged information // ICLR, 2016.}
-\footnotetext[2]{\textit{Hinton G., Vinyals O., Dean J.} Distilling the knowledge in a neural network // NIPS, 2015.}
-\end{frame}
-
-%----------------------------------------------------------------------------------------------------------
-\section{Предложенный метод \ldots}
-\begin{frame}{Предложенный метод \ldots}
-~\\[-1mm]
-Заданы
-\begin{enumerate}[1)]
-	\item \ldots,
-	\item \ldots.
-\end{enumerate}
-
-\medskip
-Параметрические семейства:
-\[
-\setlength\abovedisplayskip{0pt}
-\mathfrak{F} = \left\{\mathbf{f}| \mathbf{f} = \text{softmax}\bigr(\mathbf{v}\bigr(\mathbf{x}\bigr)/T\bigr), \quad \mathbf{v}: \mathbb{R}^{n} \to \mathbb{R}^K \right\},
-\]
-\[
-\mathfrak{G} = \left\{\mathbf{g}| \mathbf{g} = \text{softmax}\bigr(\mathbf{z}\bigr(\mathbf{x}\bigr)/T\bigr), \quad \mathbf{z}: \mathbb{R}^n \to \mathbb{R}^K \right\},
-\]
-где~\ldots.
-
-\medskip
-Функция ошибки
-\[
-\setlength\abovedisplayskip{0pt}
-\begin{aligned}
-   \mathcal{L}\bigr(\mathbf{g}\bigr) = &-\sum_{i=1}^{m}\underbrace{{\sum_{k=1}^{K}y^k_i\log\mathbf{g}\bigr(\mathbf{x}_i\bigr)\bigr|_{T=1}}}_{\text{исходная функция потерь}}- \sum_{i=1}^{m}\underbrace{{\sum_{k=1}^{K}\mathbf{f}\bigr(\mathbf{x}_i\bigr)\bigr|_{T=T_0}\log\mathbf{g}\bigr(\mathbf{x}_i\bigr)\bigr|_{T=T_0}}}_{\text{слагаемое дистилляции}},
-\end{aligned}
-\setlength\belowdisplayskip{0pt}
-\]
-где~\ldots.
-
-Оптимальная модель выбирается из класса,
-$\hat{\mathbf{g}} = \arg\min\limits_{\mathbf{g} \in \mathfrak{G}_{\text{cl}}} \mathcal{L}\bigr(\mathbf{g}\bigr).$
-\end{frame}
-
-%----------------------------------------------------------------------------------------------------------
-\section{Анализ предложенного метода \ldots}
-\begin{frame}{Анализ предложенного метода \ldots}
-\justifying
-
-На графике показана зависимость значения параметров$w_i$ в зависимости от параметра~$l_1$-регуляризации~$C$.
-\begin{figure}[h!]
-\includegraphics[width=0.45\textwidth]{../figures/log_reg_cs_exp.eps}
-\includegraphics[width=0.45\textwidth]{../figures/log_reg_cs_exp.eps}
+\begin{frame}{Введение}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{itemize}
+        \item Высокоразмерные данные - видео, звук - избыточны.
+        \item Модели тяжело обучаются на избыточных данных, часто переобучаются.
+        \item Нужно бороться с избыточностью и переобучением.
+    \end{itemize}
+    
+    
+\column{0.5\textwidth}
+\begin{figure}
+\includegraphics[scale=0.4]{overfit.png}
+\caption{Переобучение.}
 \end{figure}
 
-С увеличением параметра регуляризации~$C$ число ненулевых параметров~$w_i$ уменьшается.
-
+\end{columns}
 \end{frame}
 
-%----------------------------------------------------------------------------------------------------------
-\section{Выводы}
-\begin{frame}{Выводы}
-\justifying
-	\begin{enumerate}
-	\justifying
-	    \item Предложен \ldots.
-        \item Доказаны теоремы \ldots, 
-        \begin{itemize}
-            \item[---] \ldots,
-            \item[---] \ldots.
-        \end{itemize}
-        \item Предложен метод \ldots
-        \begin{itemize}
-            \item[---] \ldots,
-            \item[---] \ldots.
-        \end{itemize}
-        \item Предложены методы \ldots
-        \begin{itemize}
-            \item[---] \ldots,
-            \item[---] \ldots.
-        \end{itemize}
-        \item Предложена вероятностная интерпретации \ldots.
-	\end{enumerate}
-\end{frame}
-%----------------------------------------------------------------------------------------------------------
 
-\end{document} 
+\begin{frame}{Методы улучшения обучения}
+\begin{itemize}
+
+    \item Методы снижения размерности входных данных:
+        \begin{itemize}
+            \item PCA
+            \item Quadratic Programming Feature selection
+            \item Neural Autoencoders
+        \end{itemize}
+
+    \item Выбор оптимальной структуры модели:
+        \begin{itemize}
+            \item Optimal Brain Surgeon
+            \item Correlational analysis
+            \item Weights freezing
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Мотивация}
+\begin{itemize}
+
+    \item В предыдущих работах параметры модели $\mathbf{w}$ рассматриваются как отдельные скаляры.
+    \item Не учтена простая структура нейросети -  композиция линейных и простых нелинейных функций.
+    \item Составной блок нейросети:
+        \[y=\sigma(\mathsf{W}x + b),\\ \ y, b \in \mathbb{R}^m, \ x \in \mathbb{R}^n, \ \mathsf{W} \in \mathbb{R}^{m \times n}, \ \sigma: \mathbb{R} \to \mathbb{R}.\]
+    \item В нашей работе будут исследованы не отдельные жлементы $\mathsf{W}$, а ее строки $\mathbf{w}_i$, которые в нейросети называют \textit{нейронами}:
+
+    \[\mathsf{W} = \begin{pmatrix}
+\mathbf{w}_1^{\mathsf{T}}\\
+\dots\\
+\mathbf{w}_m^{\mathsf{T}}\\
+\end{pmatrix}.\]
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Постановка задачи}
+\begin{itemize}
+    \item Дан временной ряд  $\mathbf{x} = [x_1, \dots, x_N]^{\mathsf{T}}, x_i \in \mathbb{R}$, ширина окна $n$.
+    \item Точка $\mathbf{x}_t = [x_t, \dots, x_{t + n - 1}]^{\mathsf{T}}$ - точка фазовой траектории временного ряда в траекторном пространстве $\mathbb{H}_{\mathbf{x}} \subset \mathbb{R}^n$.
+    \item Предположение: точка фазовой траектории распределена               \textit{нормально} в фазовом пространстве.
+    \item Тогда параметры обученной нейросети будут случайными.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Постановка задачи}
+\begin{itemize}
+    \item Для каждого вектора-параметра $\mathbf{w}_i$ оцениваем его матожидание $\mathbf{e_1} = \mathsf{E}\mathbs{w}_i$ и ковариационную матрицу $\mathsf{D}_i = cov(\mathbf{w}_i)$.
+    \item Для каждого вектора вычисляем его $90\%$ вероятностную область и траекторном пространстве.
+    \item Проецируем на 2-х мерное (3-х) мерное пространство.
+    \item Визуализируем результаты.
+\end{itemize}
+
+\begin{columns}
+
+\column{0.5\textwidth}
+    \begin{figure}
+    \includegraphics[scale=0.25]{gaussian_mixture.jpg}
+    \caption{Смесь гауссианов трех 2-х мерных векторов.}
+    \end{figure}
+
+\column{0.5\textwidth}
+    \begin{figure}
+    \includegraphics[scale=0.37]{gaussian_conf_area.jpg}
+    \caption{Доверительные области 3-х мерных векторов.}
+    \end{figure}
+
+\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}{Формальная постановка задачи}
+\begin{itemize}
+    \item Решается задача авторегрессионного декодирования.
+    \item Обозначим множество всех одномерных временных рядов через $\mathbb{S}$: \[\mathbb{S} = \bigcup\limits_{n=1}^{+\infty}\{[s_1, \dots, s_n] \in \mathbb{R}^{n}\}.\]
+    \item Прогностическая модель $\mathbf{f}^{\mathsf{AR}}: \mathbb{S} \to \mathbb{R}$ предсказывает следующее значение временного ряда по предыдущим.
+    \item Модель $f = f(\mathbf{w}, \mathbf{s}), \mathbf{w} \in \mathbb{W}, \mathbf{s}=[s_1, \dots, s_t]\in \mathbb{R}^t$ выбирается из некоего параметрического семейства.
+Параметры модели выбираются таким образом, чтобы минимизировать функцию ошибки $S=S(\mathbf{w}|\mathbf{s},f)$:
+$$
+\mathbf{w^*} = \arg \min \limits_{\mathbf{w} \in \mathbb{W}} S(\mathbf{w}|\mathbf{s},f).
+$$
+
+
+В работе будет использоваться функция ошибки MSE, то есть 
+$$
+S(\mathbf{w}|\mathbf{s},f) = \sum\limits_{t=h+1}^{T}(\mathbf{s}_t - \hat{\mathbf{s}}_t)^2.
+$$.
+\end{itemize}
+\begin{figure}
+\includegraphics[scale=0.2]{hyper_proj.jpg}
+\caption{Кликовая проекция гиперграфа.}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Используемые модели}
+    \begin{itemize}
+        \item Нелинейный PCA:
+            \[\mathbf{f}(x) = \sigma(w^{\mathsf{T}}\cdot \sigma(W^{\mathsf{T}}x + b_1) + b_2)\]
+            \[x \in \mathbb{R}^{h}, \ W \in \mathbb{R}^{h \times d}, \ w \in \mathbb{R}^d: w^Tw=1, WW^T=I.\]
+
+        \item RNN:
+            \[ h_t = \sigma(W \cdot h_{t-1} + V \cdot \mathbf{x}_t),\]
+            \[ s_{t+1} = tanh(w_o^{\mathsf{T}} \cdot h_t)\]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Данные}
+    \begin{itemize}
+        \item Синтетические: зашумленный $\sin$.
+        \item Данные акселерометра.
+        \item Данные активности мозга во время прослушивания звуковой дорожки.
+    \end{itemize}
+
+    \begin{figure}
+    \includegraphics[scale=0.7]{acsel.jpg}
+    \caption{Показания аксеелерометра во время подъема по лестнице.}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Планируемые результаты}
+\begin{itemize}
+    \item Провести метрический анализ признакового пространства нейронов сети.
+    \item Научиться выявлять ненужные нейроны.
+    \item Научиться выделять структуру сообществ в нейронах.
+    \item Преобразовать признаковое пространство, объединяя сильно скореллированные нейроны в новые.
+    \item Разработать алгоритм снижения размерности признакового пространства.
+    \item Ускорить обучение известных моделей работы с временными рядами, улучшить их качество, увеличить стабильность.
+\end{itemize}
+\end{frame}
+    
+\end{document}
