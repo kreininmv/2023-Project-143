@@ -212,7 +212,10 @@ def _single_tensor_myadamw(params: List[Tensor],
                 # Use the max. for normalizing running avg. of gradient
                 denom = (max_exp_avg_sqs[i].sqrt() / bias_correction2_sqrt).add_(eps)
             else:
+                
                 denom = (exp_avg_sq.sqrt() / bias_correction2_sqrt).add_(eps)
+                tmp_wd = torch.ones_like(denom) * weight_decay
+                denom = torch.maximum(denom, tmp_wd)
             
             
             ### PROBABILITY ALGORITHM!!! ###
@@ -342,6 +345,10 @@ def _multi_tensor_myadamw(params: List[Tensor],
             exp_avg_sq_sqrt = torch._foreach_sqrt(exp_avg_sqs)
             torch._foreach_div_(exp_avg_sq_sqrt, bias_correction2_sqrt)
             denom = torch._foreach_add(exp_avg_sq_sqrt, eps)
+            
+            ###
+            torch._foreach_maximum_(exp_avg_sq_sqrt, exp_avg_sqs)
+            
         
         ''' LAST CENTURY TECHNOLOGY
         ### OUR CHANGING!

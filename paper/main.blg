@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: unsrtnat.bst
+Database file #1: references.bib
+Warning--empty journal in rifkin2007notes
+Warning--can't use both volume and number fields in goldberg2011oasis
+Warning--can't use both volume and number fields in yao2021adahessian
+You've used 8 entries,
+            2481 wiz_defined-function locations,
+            603 strings with 5723 characters,
+and the built_in function-call counts, 3449 in all, are:
+= -- 294
+> -- 168
+< -- 9
++ -- 64
+- -- 48
+* -- 253
+:= -- 520
+add.period$ -- 24
+call.type$ -- 8
+change.case$ -- 15
+chr.to.int$ -- 8
+cite$ -- 11
+duplicate$ -- 185
+empty$ -- 309
+format.name$ -- 64
+if$ -- 750
+int.to.chr$ -- 1
+int.to.str$ -- 9
+missing$ -- 9
+newline$ -- 48
+num.names$ -- 24
+pop$ -- 75
+preamble$ -- 1
+purify$ -- 8
+quote$ -- 0
+skip$ -- 131
+stack$ -- 0
+substring$ -- 164
+swap$ -- 50
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 53
+warning$ -- 3
+while$ -- 29
+width$ -- 0
+write$ -- 109
+(There were 3 warnings)
