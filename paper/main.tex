@@ -73,14 +73,14 @@ pdfkeywords={First keyword, Second keyword, More},
 
 \section{Introduction}
 In machine learning we consider unconstrained optimization problem
-\begin{equation*}
+\begin{equation}
 	\min_{w \in \mathbb{R}^d} f(w)
-\end{equation*}
+\end{equation}
 Problems of the form (1) cover a plethora of applications, including empirical risk minimization,
-deep learning, and supervised learning tasks such as regularized least squares or logistic regression. This minimization problem can be difficult to solve, particularly when the number of training
+deep learning \citep{lecun2015deep}, and supervised learning \citep{cunningham2008supervised} tasks such as regularized least squares \citep{rifkin2007notes} or logistic regression \citep{shalev2014understanding}. This minimization problem can be difficult to solve, particularly when the number of training
 samples n, or problem dimension d, is large, or if the problem is nonconvex.
 
-There are second order preconditioners methods for solving this problem, such as Adam \citep{kingma2014adam} , OASIS \citep{}, AdaHessian. 
+Second order preconditioners methods are methods when instead of calculate true hessian of our function for newton method \citep{dennis1977quasi}, some heuristics is used to calculate pseudo-hessian. There are second order preconditioners methods for solving this problem, such as Adam \citep{kingma2014adam} , OASIS \citep{goldberg2011oasis}, AdaHessian \citep{yao2021adahessian}. 
 
 Throughout this work we assume that each f $:\mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable and also L-smooth. This is formalized in the following assumption.
 
@@ -112,21 +112,18 @@ Throughout this work we assume that each f $:\mathbb{R}^d \rightarrow \mathbb{R}
 
 
 \section{Problem statement}
+We want to investigate the convergence speed of the AdamW method and the newly proposed MyAdamW method in machine learning problems, and we also plan to prove the convergence of these methods and investigate the obtained solution.
+
 We consider the unconstrained optimization problem
 \begin{equation*}
 	\min_{w \in \mathbb{R}^d} f(w)
 \end{equation*}
-Problems of the form cover a plethora of applications, including empirical risk minimization,
-deep learning, and supervised learning tasks such as regularized least squares or logistic regression.
 
 But we can add regulirazation $r(w)$ -- regularization, and solve the unconstrained optimization problem.
 \begin{equation*}
 	\min_{w \in \mathbb{R}^d} F(w) = f(w) + r(w)
 \end{equation*}
 
-For solving these problems we always scaled adaptive gradients algorithms like ADAM, OASIS, ADAHessian. We investigate how the convergence rate will change when the regularization function is added to these algorithms.
-
-% В исследуемом нами алгоритме сходимости мы будем исследовать алгоритмы двух следующих видов. В первом функция регуляризации выносится отдельном в пересчете весов модели, во втором функция домножается на обратный "гессиан".
 In the convergence algorithm that we study, we will investigate algorithms of the following two kinds. In the first one, the regularization function is taken out separately in the recalculation of model weights, and in the second one, the function is dominated by the inverse "hessian".
 
 \begin{algorithm}[H]
