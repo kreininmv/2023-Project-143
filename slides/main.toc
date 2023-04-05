@@ -1,8 +1,1 @@
 \babel@toc {russian}{}\relax 
-\beamer@sectionintoc {1}{Введение}{2}{0}{1}
-\beamer@sectionintoc {2}{Методы улучшения обучения}{2}{0}{2}
-\beamer@sectionintoc {3}{Мотивация}{2}{0}{3}
-\beamer@sectionintoc {4}{Постановка задачи}{2}{0}{4}
-\beamer@sectionintoc {5}{Используемые модели}{2}{0}{5}
-\beamer@sectionintoc {6}{Данные}{2}{0}{6}
-\beamer@sectionintoc {7}{Планируемые результаты}{2}{0}{7}

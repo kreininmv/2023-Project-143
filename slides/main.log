@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.11)  16 MAR 2023 11:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.11)  5 APR 2023 14:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -126,8 +126,8 @@ Package: pgfrcs 2021/05/15 v3.1.9a (3.1.9a)
 \pgfmath@stack@operation=\toks24
 ) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
 \c@pgfmathroundto@lastzeros=\count285
-))) (c:/texlive/2022/texmf-dist/tex/latex/base/size11.clo
-File: size11.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+))) (c:/texlive/2022/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 ) (c:/texlive/2022/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
  (c:/texlive/2022/texmf-dist/tex/latex/graphics/graphics.sty
@@ -801,94 +801,193 @@ Package: array 2022/03/10 v2.5f Tabular extension package (FMi)
 \extratabsurround=\skip64
 \backup@length=\skip65
 \ar@cellbox=\box77
-)
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:9: LaTeX Error: Option clash for package graphicx.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.9 \usepackage
-               {longtable,wrapfig}
-The package graphicx has already been loaded with options:
-  []
-There has now been an attempt to load it with options
-  [dvips]
-Adding the global options:
-  ,dvips
-to your \documentclass declaration may fix this.
-Try typing  <return>  to proceed.
-
-(c:/texlive/2022/texmf-dist/tex/latex/tools/longtable.sty
-Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip66
-\LTright=\skip67
-\LTpre=\skip68
-\LTpost=\skip69
-\LTchunksize=\count336
-\LTcapwidth=\dimen298
-\LT@head=\box78
-\LT@firsthead=\box79
-\LT@foot=\box80
-\LT@lastfoot=\box81
-\LT@gbox=\box82
-\LT@cols=\count337
-\LT@rows=\count338
-\c@LT@tables=\count339
-\c@LT@chunks=\count340
-\LT@p@ftn=\toks49
-) (c:/texlive/2022/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen299
-\WF@size=\dimen300
-\c@WF@wrappedlines=\count341
-\WF@box=\box83
-\WF@everypar=\toks50
-Package: wrapfig 2003/01/31  v 3.6
 ) (c:/texlive/2022/texmf-dist/tex/latex/sidecap/sidecap.sty
 Package: sidecap 2003/06/06 v1.6f SideCap Package (RN/HjG)
  (c:/texlive/2022/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 )
-\SC@BOXWD=\dimen301
-\SC@CAPWD=\dimen302
-\SC@tempdima=\dimen303
-\SC@tempdimb=\dimen304
-\c@SC@C=\count342
-\SC@BOX=\box84
+\SC@BOXWD=\dimen298
+\SC@CAPWD=\dimen299
+\SC@tempdima=\dimen300
+\SC@tempdimb=\dimen301
+\c@SC@C=\count336
+\SC@BOX=\box78
 ) (c:/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (c:/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeBoadilla.sty (c:/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemerose.sty) (c:/texlive/2022/texmf-dist/tex/latex/beamer/beamerinnerthemerounded.sty) (c:/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemedolphin.sty) (c:/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemeinfolines.sty)) (c:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (c:/texlive/2022/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2022/05/22 v0.5v Insert pages of external PDF documents (AM)
+ (c:/texlive/2022/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count337
+\calc@Bcount=\count338
+\calc@Adimen=\dimen302
+\calc@Bdimen=\dimen303
+\calc@Askip=\skip66
+\calc@Bskip=\skip67
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count339
+\calc@Cskip=\skip68
+) (c:/texlive/2022/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
+\ESO@tempdima=\dimen304
+\ESO@tempdimb=\dimen305
+)
+\AM@pagewidth=\dimen306
+\AM@pageheight=\dimen307
+\AM@fboxrule=\dimen308
+ (c:/texlive/2022/texmf-dist/tex/latex/pdfpages/pppdftex.def
+File: pppdftex.def 2022/05/22 v0.5v Pdfpages driver for pdfTeX (AM)
+)
+\pdfpages@includegraphics@status=\count340
+\AM@pagebox=\box79
+\AM@global@opts=\toks49
+\AM@pagecnt=\count341
+\AM@toc@title=\toks50
+\c@AM@survey=\count342
+\AM@templatesizebox=\box80
+) (c:/texlive/2022/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2021/11/30 v1.9d multicolumn formatting (FMi)
+\c@tracingmulticols=\count343
+\mult@box=\box81
+\multicol@leftmargin=\dimen309
+\c@unbalance=\count344
+\c@collectmore=\count345
+\doublecol@number=\count346
+\multicoltolerance=\count347
+\multicolpretolerance=\count348
+\full@width=\dimen310
+\page@free=\dimen311
+\premulticols=\dimen312
+\postmulticols=\dimen313
+\multicolsep=\skip69
+\multicolbaselineskip=\skip70
+\partial@page=\box82
+\last@line=\box83
+\maxbalancingoverflow=\dimen314
+\mult@rightbox=\box84
+\mult@grightbox=\box85
+\mult@firstbox=\box86
+\mult@gfirstbox=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
+\@tempa=\box101
+\@tempa=\box102
+\@tempa=\box103
+\@tempa=\box104
+\@tempa=\box105
+\@tempa=\box106
+\@tempa=\box107
+\@tempa=\box108
+\@tempa=\box109
+\@tempa=\box110
+\@tempa=\box111
+\@tempa=\box112
+\@tempa=\box113
+\@tempa=\box114
+\@tempa=\box115
+\@tempa=\box116
+\@tempa=\box117
+\@tempa=\box118
+\@tempa=\box119
+\@tempa=\box120
+\@tempa=\box121
+\@tempa=\box122
+\@tempa=\box123
+\c@minrows=\count349
+\c@columnbadness=\count350
+\c@finalcolumnbadness=\count351
+\last@try=\dimen315
+\multicolovershoot=\dimen316
+\multicolundershoot=\dimen317
+\mult@nat@firstbox=\box124
+\colbreak@box=\box125
+\mc@col@check@num=\count352
+) (c:/texlive/2022/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+ (c:/texlive/2022/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count353
+\float@exts=\toks51
+\float@box=\box126
+\@float@everytoks=\toks52
+\@floatcapt=\box127
+)
+\@float@every@algorithm=\toks53
+\c@algorithm=\count354
+) (c:/texlive/2022/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+ (c:/texlive/2022/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count355
+\c@ALG@rem=\count356
+\c@ALG@nested=\count357
+\ALG@tlm=\skip71
+\ALG@thistlm=\skip72
+\c@ALG@Lnr=\count358
+\c@ALG@blocknr=\count359
+\c@ALG@storecount=\count360
+\c@ALG@tmpcounter=\count361
+\ALG@tmplength=\skip73
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (c:/texlive/2022/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
+\everycr=\toks54
+\minrowclearance=\skip74
+\rownum=\count362
+) (c:/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeboxes.sty
+\beamer@boxheadheight=\dimen318
+\beamer@boxfootheight=\dimen319
+\beamer@headboxes=\count363
+\beamer@headboxsizes=\dimen320
+\beamer@currentbox=\count364
+\beamer@footboxes=\count365
+\beamer@footboxsizes=\dimen321
+) (c:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-08-30 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count343
-\l__pdf_internal_box=\box85
+\l__color_backend_stack_int=\count366
+\l__pdf_internal_box=\box128
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 27.
-LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 52.
+LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 52.
  (c:/texlive/2022/texmf-dist/tex/latex/cyrillic/t2acmr.fd
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    ... okay on input line 52.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -898,23 +997,23 @@ LaTeX Font Info:    ... okay on input line 27.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: includehead includefoot 
-* h-part:(L,W,R)=(10.88002pt, 342.43532pt, 10.88002pt)
-* v-part:(T,H,B)=(0.0pt, 273.14662pt, 0.0pt)
-* \paperwidth=364.19536pt
-* \paperheight=273.14662pt
-* \textwidth=342.43532pt
-* \textheight=244.6939pt
-* \oddsidemargin=-61.38997pt
-* \evensidemargin=-61.38997pt
+* h-part:(L,W,R)=(28.45274pt, 398.3386pt, 28.45274pt)
+* v-part:(T,H,B)=(0.0pt, 256.0748pt, 0.0pt)
+* \paperwidth=455.24408pt
+* \paperheight=256.0748pt
+* \textwidth=398.3386pt
+* \textheight=227.62207pt
+* \oddsidemargin=-43.81725pt
+* \evensidemargin=-43.81725pt
 * \topmargin=-72.26999pt
 * \headheight=14.22636pt
 * \headsep=0.0pt
-* \topskip=11.0pt
+* \topskip=12.0pt
 * \footskip=14.22636pt
 * \marginparwidth=4.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -926,80 +1025,81 @@ LaTeX Font Info:    ... okay on input line 27.
 
 (c:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count344
-\scratchdimen=\dimen305
-\scratchbox=\box86
-\nofMPsegments=\count345
-\nofMParguments=\count346
-\everyMPshowfont=\toks51
-\MPscratchCnt=\count347
-\MPscratchDim=\dimen306
-\MPnumerator=\count348
-\makeMPintoPDFobject=\count349
-\everyMPtoPDFconversion=\toks52
+\scratchcounter=\count367
+\scratchdimen=\dimen322
+\scratchbox=\box129
+\nofMPsegments=\count368
+\nofMParguments=\count369
+\everyMPshowfont=\toks55
+\MPscratchCnt=\count370
+\MPscratchDim=\dimen323
+\MPnumerator=\count371
+\makeMPintoPDFobject=\count372
+\everyMPtoPDFconversion=\toks56
 ) (c:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (c:/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 27.
+Package hyperref Info: Link coloring OFF on input line 52.
+ (./main.out) (./main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 27.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 52.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 27.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 52.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> T2A/cmr/m/n on input line 27.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 27.
+(Font)                  OT1/cmss/m/n --> T2A/cmr/m/n on input line 52.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> T2A/cmss/b/n on input line 27.
+(Font)                  OT1/cmr/bx/n --> T2A/cmss/b/n on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> T2A/cmss/b/n on input line 27.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 27.
+(Font)                  OT1/cmr/bx/n --> T2A/cmss/b/n on input line 52.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> T2A/cmss/m/n on input line 27.
+(Font)                  OT1/cmss/m/n --> T2A/cmss/m/n on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> T2A/cmss/m/n on input line 27.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 27.
+(Font)                  OT1/cmss/bx/n --> T2A/cmss/m/n on input line 52.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> T2A/cmss/m/it on input line 27.
+(Font)                  OT1/cmr/m/it --> T2A/cmss/m/it on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> T2A/cmss/m/it on input line 27.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 27.
+(Font)                  OT1/cmr/bx/it --> T2A/cmss/m/it on input line 52.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> T2A/cmtt/m/n on input line 27.
+(Font)                  OT1/cmtt/m/n --> T2A/cmtt/m/n on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> T2A/cmtt/m/n on input line 27.
+(Font)                  OT1/cmtt/m/n --> T2A/cmtt/m/n on input line 52.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  T2A/cmss/m/n --> T2A/cmss/b/n on input line 27.
+(Font)                  T2A/cmss/m/n --> T2A/cmss/b/n on input line 52.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  T2A/cmss/m/it --> T2A/cmss/b/it on input line 27.
+(Font)                  T2A/cmss/m/it --> T2A/cmss/b/it on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/b/n --> T2A/cmr/b/n on input line 27.
+(Font)                  OT1/cmss/b/n --> T2A/cmr/b/n on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  T2A/cmss/b/n --> T2A/cmss/b/n on input line 27.
+(Font)                  T2A/cmss/b/n --> T2A/cmss/b/n on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  T2A/cmss/m/n --> T2A/cmss/b/n on input line 27.
+(Font)                  T2A/cmss/m/n --> T2A/cmss/b/n on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  T2A/cmss/m/it --> T2A/cmss/b/it on input line 27.
+(Font)                  T2A/cmss/m/it --> T2A/cmss/b/it on input line 52.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  T2A/cmtt/m/n --> T2A/cmtt/b/n on input line 27.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 27.
+(Font)                  T2A/cmtt/m/n --> T2A/cmtt/b/n on input line 52.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 52.
 LaTeX Font Info:    Encoding `T2A' has changed to `OT1' for symbol font
-(Font)              `pureletters' in the math version `normal' on input line 27.
+(Font)              `pureletters' in the math version `normal' on input line 52.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
-(Font)                  T2A/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 27.
+(Font)                  T2A/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 52.
 LaTeX Font Info:    Encoding `T2A' has changed to `OT1' for symbol font
-(Font)              `pureletters' in the math version `bold' on input line 27.
+(Font)              `pureletters' in the math version `bold' on input line 52.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  T2A/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 27.
+(Font)                  T2A/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 52.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on input line 27.
+(Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on input line 52.
  (c:/texlive/2022/texmf-dist/tex/latex/translator/translator-basic-dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
 ) (c:/texlive/2022/texmf-dist/tex/latex/translator/translator-bibliography-dictionary-English.dict
@@ -1013,294 +1113,119 @@ Dictionary: translator-numbers-dictionary, Language: English
 ) (c:/texlive/2022/texmf-dist/tex/latex/translator/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \th on input line 27.
+LaTeX Info: Redefining \th on input line 52.
  (c:/texlive/2022/texmf-dist/tex/latex/ragged2e/ragged2e.sty
 Package: ragged2e 2021/12/15 v3.1 ragged2e Package
-\CenteringLeftskip=\skip70
-\RaggedLeftLeftskip=\skip71
-\RaggedRightLeftskip=\skip72
-\CenteringRightskip=\skip73
-\RaggedLeftRightskip=\skip74
-\RaggedRightRightskip=\skip75
-\CenteringParfillskip=\skip76
-\RaggedLeftParfillskip=\skip77
-\RaggedRightParfillskip=\skip78
-\JustifyingParfillskip=\skip79
-\CenteringParindent=\skip80
-\RaggedLeftParindent=\skip81
-\RaggedRightParindent=\skip82
-\JustifyingParindent=\skip83
+\CenteringLeftskip=\skip75
+\RaggedLeftLeftskip=\skip76
+\RaggedRightLeftskip=\skip77
+\CenteringRightskip=\skip78
+\RaggedLeftRightskip=\skip79
+\RaggedRightRightskip=\skip80
+\CenteringParfillskip=\skip81
+\RaggedLeftParfillskip=\skip82
+\RaggedRightParfillskip=\skip83
+\JustifyingParfillskip=\skip84
+\CenteringParindent=\skip85
+\RaggedLeftParindent=\skip86
+\RaggedRightParindent=\skip87
+\JustifyingParindent=\skip88
+) (c:/texlive/2022/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+ (c:/texlive/2022/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
-No file main.nav.
-
-Overfull \hbox (92.04425pt too wide) in paragraph at lines 27--27
- [][][][]  
- []
-
-
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[1
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (./main.nav) [1
 
 {c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-No file main.toc.
-
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[2
-
-]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 72.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
  (c:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 72.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
  (c:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on input line 72.
+LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on input line 64.
  (c:/texlive/2022/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
-)
+) [2
 
-LaTeX Warning: File `overfit.png' not found on input line 72.
+] [3
 
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:72: Package pdftex.def Error: File `overfit.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.72 \end{frame}
-                
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-LaTeX Font Info:    Trying to load font information for T2A+cmtt on input line 72.
-(c:/texlive/2022/texmf-dist/tex/latex/cyrillic/t2acmtt.fd
-File: t2acmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
-)
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[3
+] [4
 
 ]
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[4
-
-]
-
-LaTeX Font Warning: Font shape `T2A/cmss/b/n' undefined
-(Font)              using `T2A/cmss/m/n' instead on input line 109.
-
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.109 \end{frame}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: Missing $ inserted.
-<inserted text> 
-                $
-l.109 \end{frame}
-                 
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: Missing } inserted.
-<inserted text> 
-                }
-l.109 \end{frame}
-                 
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: Display math should end with $$.
-<to be read again> 
-                   \tex_par:D 
-l.109 \end{frame}
-                 
-The `$' that I just saw supposedly matches a previous `$$'.
-So I shall assume that you typed `$$' both times.
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: Extra }, or forgotten \endgroup.
-\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
-                                                  \fi 
-l.109 \end{frame}
-                 
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: Missing $ inserted.
-<inserted text> 
-                $
-l.109 \end{frame}
-                 
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:109: Missing $ inserted.
-<inserted text> 
-                $
-l.109 \end{frame}
-                 
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
+Overfull \vbox (1.25993pt too high) detected at line 121
  []
 
 [5
 
 ]
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
+Underfull \hbox (badness 10000) in paragraph at lines 173--173
+[]\T2A/cmss/bx/n/12 Algorithm 1 \T2A/cmss/m/n/12 General scheme for
+ []
+
+
+Overfull \vbox (4.74806pt too high) detected at line 173
  []
 
 [6
 
-]
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:147: Undefined control sequence.
-\beamer@doifinframe ...{e_1} = \mathsf {E}\mathbs 
-                                                  {w}_i$ и ковариац...
-l.147 \end{frame}
-                 
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+] [7
 
+] [8
 
-LaTeX Warning: File `gaussian_mixture.jpg' not found on input line 147.
+] [9
 
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:147: Package pdftex.def Error: File `gaussian_mixture.jpg' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.147 \end{frame}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `gaussian_conf_area.jpg' not found on input line 147.
-
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:147: Package pdftex.def Error: File `gaussian_conf_area.jpg' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.147 \end{frame}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[7
+] [10
 
 ]
-
-LaTeX Warning: File `hyper_proj.jpg' not found on input line 173.
-
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:173: Package pdftex.def Error: File `hyper_proj.jpg' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.173 \end{frame}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \vbox (61.57932pt too high) detected at line 173
- []
-
-
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[8
-
-]
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[9
-
-]
-
-LaTeX Warning: File `acsel.jpg' not found on input line 200.
-
-
-w:/MIPT/6_sem/2023-Project-143/slides/main.tex:200: Package pdftex.def Error: File `acsel.jpg' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.200 \end{frame}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[10
-
-]
-Overfull \hbox (92.04425pt too wide) has occurred while \output is active
- [][][][]  
+Overfull \vbox (0.60013pt too high) detected at line 259
  []
 
 [11
 
+] [12
+
 ]
+Overfull \hbox (1.58578pt too wide) detected at line 294
+\OT1/mathkerncmss/m/sl/12 w[] \OMS/cmsy/m/n/12 ^^@ \OT1/mathkerncmss/m/sl/12 w[] \OT1/cmss/m/n/12 = \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 ^^Q\OT1/mathkerncmss/m/sl/12 D[]\OMS/cmsy/m/n/12 r\OT1/mathkerncmss/m/sl/12 r\OT1/cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 w[]\OT1/cmss/m/n/12 ) \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 ^^Q\OMS/cmsy/m/n/12 r\OT1/mathkerncmss/m/sl/12 r\OT1/cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 w[]\OT1/cmss/m/n/12 ) = \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 ^^Q\OT1/mathkerncmss/m/sl/12 D[]\OT1/cmss/m/n/12 (\OMS/cmsy/m/n/12 r\OT1/mathkerncmss/m/sl/12 f \OT1/cmss/m/n/12 + \OMS/cmsy/m/n/12 r[]\OT1/cmss/m/n/12 )(\OT1/mathkerncmss/m/sl/12 w[]\OT1/cmss/m/n/12 ) = \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 ^^Q\OT1/mathkerncmss/m/sl/12 D[]\OMS/cmsy/m/n/12 r[]\OT1/cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 w[]\OT1/cmss/m/n/12 )
+ []
+
+[13
+
+] [14
+
+]
+Overfull \vbox (6.373pt too high) detected at line 328
+ []
+
+[15
+
+]
+<resnet18.png, id=427, 853.1875pt x 229.85875pt>
+File: resnet18.png Graphic file (type png)
+<use resnet18.png>
+Package pdftex.def Info: resnet18.png  used on input line 342.
+(pdftex.def)             Requested size: 255.95822pt x 68.95815pt.
+ [16
+
+ <./resnet18.png>]
+<training_loss.png, id=453, 956.07187pt x 297.36093pt>
+File: training_loss.png Graphic file (type png)
+<use training_loss.png>
+Package pdftex.def Info: training_loss.png  used on input line 353.
+(pdftex.def)             Requested size: 278.8293pt x 75.61958pt.
+<testing_accuracy.png, id=455, 960.58875pt x 300.3722pt>
+File: testing_accuracy.png Graphic file (type png)
+<use testing_accuracy.png>
+Package pdftex.def Info: testing_accuracy.png  used on input line 353.
+(pdftex.def)             Requested size: 278.84209pt x 75.61993pt.
+ [17
+
+ <./training_loss.png> <./testing_accuracy.png>]
 \tf@nav=\write6
 \openout6 = `main.nav'.
 
@@ -1311,31 +1236,22 @@ Overfull \hbox (92.04425pt too wide) has occurred while \output is active
 \openout8 = `main.snm'.
 
  (./main.aux)
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  8DD527888E0F05409CC0C627C0E7E533;1149.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24576 strings out of 475075
- 475143 string characters out of 5783001
- 779844 words of memory out of 5000000
- 45388 multiletter control sequences out of 15000+600000
- 483683 words of font info for 64 fonts, out of 8000000 for 9000
+ 25783 strings out of 475075
+ 490279 string characters out of 5783001
+ 814630 words of memory out of 5000000
+ 46561 multiletter control sequences out of 15000+600000
+ 497301 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,15n,122p,462b,716s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsi1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on main.pdf (11 pages, 215508 bytes).
+ 128i,15n,122p,462b,980s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsi0700.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsi1000.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsi1200.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1728.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1095.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb>
+Output written on main.pdf (17 pages, 497939 bytes).
 PDF statistics:
- 410 PDF objects out of 1000 (max. 8388607)
- 351 compressed objects within 4 object streams
- 30 named destinations out of 1000 (max. 500000)
- 49 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 615 PDF objects out of 1000 (max. 8388607)
+ 520 compressed objects within 6 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 
