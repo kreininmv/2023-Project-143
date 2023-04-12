@@ -18,6 +18,11 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
+% Цвета 
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{colortbl}
+
 \newtheorem{theorem}{Theorem}
 
 \newtheorem*{assumption*}{\assumptionnumber}
@@ -77,13 +82,134 @@ In machine learning we consider unconstrained optimization problem
 	\min_{w \in \mathbb{R}^d} f(w)
 \end{equation}
 Problems of the form (1) cover a plethora of applications, including empirical risk minimization,
-deep learning \citep{lecun2015deep}, and supervised learning \citep{cunningham2008supervised} tasks such as regularized least squares \citep{rifkin2007notes} or logistic regression \citep{shalev2014understanding}. This minimization problem can be difficult to solve, particularly when the number of training
-samples n, or problem dimension d, is large, or if the problem is nonconvex.
+deep learning \citep{lecun2015deep}, and supervised learning \citep{cunningham2008supervised} tasks such as regularized least squares \citep{rifkin2007notes} or logistic regression \citep{shalev2014understanding}.
 
-Second order preconditioners methods are methods when instead of calculate true hessian of our function for newton method \citep{dennis1977quasi}, some heuristics is used to calculate pseudo-hessian. There are second order preconditioners methods for solving this problem, such as Adam \citep{kingma2014adam} , OASIS \citep{goldberg2011oasis}, AdaHessian \citep{yao2021adahessian}. 
+The classic base method for solving the optimization is gradient descent, but this minimization problem can be difficult to solve, particularly when the number of training samples n, or problem dimension d, is large.
+In modern machine learning especially large problems represent the greatest interest.
+For such cases stochastic gradient descent \citep{bottou2010large} became popular solution.
+Despite its simplicity, it proved itself to be an efficient and effective optimization method.
+For a long time first-ordered methods were most popular approach of solving optimization problems.
 
-Throughout this work we assume that each f $:\mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable and also L-smooth. This is formalized in the following assumption.
+Other way of solving the problem are methods with adaptive gradient \citep{wilson2017marginal}. These methods posses several superiority over first-ordered methods.
+Firstly, they have bigger potential of distributed solving, because first ordered methods spend majority of time on "communication".
+Secondly, they are less sensitive to the choice of hyperparameters up to the point that hyperparameters can be set equal to one.
+Lastly, this methods often simply show faster convergence on modern large optimization problems, especially this methods became applicable in neural networks solving.
+Nowadays it is known that preconditioning methods often outperform other methods on modern large optimization problems \citep{zhang2018three, yao2021adahessian, kingma2014adam, goldberg2011oasis}.
 
+Preconditioning methods refer to techniques that involve scaling the gradient of a problem by a specific matrix $D_t$, which enables the gradient to take into account the geometry of the problem. In the classical case $D_t = (\nabla^2 f)^{-1}$, which corresponds newton's method, however hessian is difficult to calculate and even more difficult to reverse, because of that some heuristics are used to replace the reversed hessian \citep{dennis1977quasi}. In OASIS \citep{goldberg2011oasis} or AdaHessian \citep{yao2021adahessian} hessian is assumed to have diagonal dominance. In Adam \citep{kingma2014adam} gradient is simply normalized, etc. This heuristics were proved to be effective and efficient. General scheme of methods with preconditioning can be framed in the following algorithm
+
+% записать в одну строчку, и пояснить g_t, D_t^{-1}
+\begin{algorithm}[H]
+            
+            \caption{General scheme for preconditions methods}\label{alg:genalg}
+    
+            \begin{algorithmic}
+            \small{
+            \Require{$\eta, f$}
+            
+            \While {$w$ not converged}
+            \State $t = t+1$
+            \State $g_t \gets \nabla f(w_{t-1})$
+            \State $D_t \gets$ pseudo-hessian, precondtioning, scaling
+            \State $w_t = w_{t-1} - \eta \cdot g_t D_t^{-1}$    
+            \EndWhile
+            }
+\end{algorithmic}
+\end{algorithm}
+
+
+Regularization is a powerful technique in machine learning that aims to prevent overfitting by adding additional constraints to the model.
+It has been widely applied to various machine learning problems, including image classification, speech recognition, and natural language processing, and has shown its effectiveness in improving the generalization capability of neural networks \citep{poggio1987computational}.
+
+In methods with preconditioning appears to be several ways to include regularization.
+We can include regularizer $r$ in $g_t$ calculation so it will be taken into consideration while calculating $D_t$. This method is equal to considering optimization problem 
+
+\begin{equation}
+	\min_{w \in \mathbb{R}^d} f(w) + r(w).
+\end{equation}
+
+Or we can include regularizer only on last step, decreasing norm of $w$ \citep{loshchilov2017decoupled}.
+This way of regularization is called weight decay and surprisingly turns out to be more efficient in practical problems.
+There are few other ways of considering regularizer which will be discussed further in the paper.
+
+In general, our paper provides insight into comparison of different consideration ways of regularization is methods with preconditioning. Here, we provide a brief summary of our main contributions:
+
+\begin{itemize}
+    \item \textbf{Proof of preconditioned methods' with weight decay convergence}.  We derive convergence guarantees for preconditioned methods considering assumptions of smoothness, strongly convex and PL-condition.
+    
+    \item \textbf{Research of the loss function} Comparison of accuracy and loss function for AdamW and AdamL2. As a result we saw that AdamW asymptotically converges to a non-zero value
+    
+    \item \textbf{Competitive Numerical Results} We investigate the empirical performance of Adam's variation including new one on a variety of standard machine learning tasks, including logistic regression.
+\end{itemize}
+
+\section{Problem statement}
+We want to investigate the convergence speed of the AdamW method and the newly proposed MyAdamW method in machine learning problems, and we also plan to prove the convergence of these methods and investigate the obtained solution.
+
+We consider the unconstrained optimization problem
+\begin{equation*}
+	\min_{w \in \mathbb{R}^d} f(w)
+\end{equation*}
+
+But we can add regulirazation $r(w)$ -- regularization, and solve the unconstrained optimization problem.
+\begin{equation*}
+	\min_{w \in \mathbb{R}^d} F(w) = f(w) + r(w)
+\end{equation*}
+
+In the convergence algorithm that we study, we will investigate algorithms of the following two kinds. In the first one, the regularization function is taken out separately in the recalculation of model weights, and in the second one, the function is dominated by the inverse "hessian".
+
+\begin{algorithm}[H]
+            
+    \caption{General scheme for preconditions methods}\label{alg:genalg}
+
+    \begin{algorithmic}
+    \small{
+    \Require{$\eta, \epsilon, f, r$}
+    
+    \While {$w$ not converged}
+    \State $t = t+1$
+    \State $g_t = \nabla f_t(w_{t-1})$
+    \State $D_t =$ \textcolor{red}{diag($\sqrt{g_t \odot g_t} + \varepsilon$)}  \hfill \textcolor{red}{AdamW}
+    \State $D_t$ = \textcolor{cyan}{$\mathbb{E}[z^T \nabla^2f(w_{t-1}) z]$} \hfill \textcolor{violet}{OASIS}, where $z$ in Rademacher distribution
+    \State $w_t = w_{t-1} - \eta \cdot g_t D_t^{-1}$    
+    \EndWhile
+    }
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[H]
+            
+    \caption{Adam($\lambda$)}\label{alg:Adam}
+
+    \begin{algorithmic}
+    \small{
+    \Require{$\eta, \beta_1, \beta_2, \epsilon, f, r$}
+    %\State $m_0 = 0$ -- 1-st moment vector
+    %\State$v_0 = 0$ -- 2-nd moment vector
+    \While {$\theta$ not converged}
+    \State $t = t+1$
+    \State $g_t = \nabla f(w_{t-1})$ + \textcolor{blue}{$\nabla r(w_{t-1})$} \hfill \textcolor{blue}{AdamL2}    
+    \State $m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$
+    \State $v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$
+    \State $\hat{m_t} = \frac{m_t}{1-\beta_1^t}$ + \textcolor{green}{$\nabla r(w_{t-1})$} \hfill \textcolor{green}{MyAdamW}
+    \State $\hat{v_t} = \frac{v_t}{1-\beta_2^t}$ 
+    \State $w_t = w_{t-1} - \eta \cdot \frac{\hat{m_t}}{\sqrt{v_t} + \epsilon}$    - \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{AdamW}
+    \EndWhile
+    }
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+\section{Experiment}
+% Мы проведем эксперимент, в котором сравним Adam с добавленной L2 регуляризацией с AdamW, при различных learning rate и decoupled weight, также мы сравним его с измененным алгоритмом AdamW, где регуляризатор занесен под гессиан, также мы сравним его при условии, что теперь минимальное собственное число гессиана, это не epsilon, а гиперпараметр decoupled weight.Проведем те же эксперименты со SGD и L2 регуляризацией и SGD с decoupled weitght при тех же параметрах. Все эксперименты будут проводиться на батчах размера 128, на сетке ResNet18, в 200 эпох. Всё это будет реализовано с помощью библиотеки PyTorch на dataset CIFAR10.
+
+We will conduct an experiment in which we compare Adam with added L2 regularization with AdamW, at different learning rate and decoupled weight, also we will compare it with the modified AdamW algorithm where the regularizer is put under the hessian, also we will compare it under the condition that now the minimal eigenvalue of hessian is not epsilon, but decoupled weight hyperparameter.We will conduct the same experiments with SGD and L2 regularization and SGD with decoupled weitght at the same parameters. All experiments will be performed on batches of size 128, on a ResNet18 grid of 200 epochs. All this will be implemented using the PyTorch library on dataset CIFAR10.
+
+\section{Theory}
 \begin{assumption}{1}{Convex}
 	The function f is convex, i.e. $\forall w, w' \in \mathbb{R}^d$
 	\begin{equation}
@@ -107,49 +233,8 @@ Throughout this work we assume that each f $:\mathbb{R}^d \rightarrow \mathbb{R}
 	\begin{equation*}
 		f(w) \geq f(w') + \langle f(w'), w-w' \rangle +\frac{\mu}{2} ||w - w'||^2
 	\end{equation*}
-	
 \end{assumption}
 
-
-\section{Problem statement}
-We want to investigate the convergence speed of the AdamW method and the newly proposed MyAdamW method in machine learning problems, and we also plan to prove the convergence of these methods and investigate the obtained solution.
-
-We consider the unconstrained optimization problem
-\begin{equation*}
-	\min_{w \in \mathbb{R}^d} f(w)
-\end{equation*}
-
-But we can add regulirazation $r(w)$ -- regularization, and solve the unconstrained optimization problem.
-\begin{equation*}
-	\min_{w \in \mathbb{R}^d} F(w) = f(w) + r(w)
-\end{equation*}
-
-In the convergence algorithm that we study, we will investigate algorithms of the following two kinds. In the first one, the regularization function is taken out separately in the recalculation of model weights, and in the second one, the function is dominated by the inverse "hessian".
-
-\begin{algorithm}[H]
-	\caption{Based algorithm}\label{alg:Based}
-	$w_0, D_0, \eta_0$
-	\begin{algorithmic}
-		\For{$k = 1, 2, ...$}
-		\State $D_k$ - update by using information of $f(w)$
-		\State $\eta_k$ - update
-		\State Set $w_{k+1} = w_k - \eta_k D_k^{-1} \nabla f(w_k) - \eta \nabla r(w)$ 
-		\State or like that
-		\State Set $w_{k+1} = w_k - \eta_k D_k^{-1} (\nabla f(w_k) + \nabla r(w))$
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
-
-
-
-
-
-\section{Experiment}
-% Мы проведем эксперимент, в котором сравним Adam с добавленной L2 регуляризацией с AdamW, при различных learning rate и decoupled weight, также мы сравним его с измененным алгоритмом AdamW, где регуляризатор занесен под гессиан, также мы сравним его при условии, что теперь минимальное собственное число гессиана, это не epsilon, а гиперпараметр decoupled weight.Проведем те же эксперименты со SGD и L2 регуляризацией и SGD с decoupled weitght при тех же параметрах. Все эксперименты будут проводиться на батчах размера 128, на сетке ResNet18, в 200 эпох. Всё это будет реализовано с помощью библиотеки PyTorch на dataset CIFAR10.
-
-We will conduct an experiment in which we compare Adam with added L2 regularization with AdamW, at different learning rate and decoupled weight, also we will compare it with the modified AdamW algorithm where the regularizer is put under the hessian, also we will compare it under the condition that now the minimal eigenvalue of hessian is not epsilon, but decoupled weight hyperparameter.We will conduct the same experiments with SGD and L2 regularization and SGD with decoupled weitght at the same parameters. All experiments will be performed on batches of size 128, on a ResNet18 grid of 200 epochs. All this will be implemented using the PyTorch library on dataset CIFAR10.
-
-\section{Theory}
 To proof this algorigthm we use simplified form of AdamW algorithm
 \begin{algorithm}[H]
 \caption{AdamW}\label{alg:AdamW}
@@ -176,6 +261,31 @@ Then, the number of iterations performed by AdamW algorithm, starting from an in
 \end{equation*}
 
 \end{theorem}
+
+\begin{theorem}
+    Suppose the Assumption 1, 2, 4, 5 and let $\varepsilon > 0$ and let the step-size satisfy
+    \begin{equation*}
+        \eta \leq \frac{2 \alpha}{\tilde{L}}
+    \end{equation*}
+    Then, the number of iterations performed by AdamW algorithm, starting from an initial point $w_0 \in \mathbb{R}^d$ with $\Delta_0 = \tilde{F}(w_0) - \tilde{F}^*$, required to obtain and $\varepsilon$-approximate solution of the convex problem (link here to problem 1) can be bounded by
+    \begin{equation*}
+        T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
+    \end{equation*}
+\end{theorem}
+\section{Appendix}
+
+\begin{theorem}
+Suppose the Assumption 1, 2, 5 and let $\varepsilon > 0$ and let the step-size satisfy
+\begin{equation*}
+    \eta < \frac{2 \alpha}{L + l \cdot \alpha} 
+\end{equation*}
+Then, the number of iterations performed by AdamW algorithm, starting from an initial point $w_0 \in \mathbb{R}^d$ with $\Delta_0 = \tilde{F}(w_0) - \tilde{F}^*$, required to obtain and $\varepsilon$-approximate solution of the convex problem (link here to problem 1) can be bounded by
+\begin{equation*}
+      T = \mathcal{O}\left( \frac{2\Delta_0 \Gamma \alpha } {(2\alpha - \tilde{L}\eta) \eta \varepsilon} \right)
+\end{equation*}
+
+\end{theorem}
+
 \begin{proof}
 
 Let's write first assumption for step t and $t+1$:
@@ -298,8 +408,6 @@ Then:
     T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
     \end{equation*}
 \end{proof}
-
-
 
 
 \bibliographystyle{unsrtnat}
