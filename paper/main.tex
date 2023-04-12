@@ -177,6 +177,27 @@ In the convergence algorithm that we study, we will investigate algorithms of th
 \end{algorithm}
 
 
+The OASIS algorithm differs from Adam in that it updates the learning rate and calculates the pseudo-Hessian matrix at each step using the expectation and a random variable distributed according to the Rademacher distribution.
+
+This is OASIS, the main difference from Adam is how the Hessian is considered, but when proving convergence, this will not play any role.
+\begin{algorithm}[H]
+\caption{OASIS}\label{alg:OASIS}
+\begin{algorithmic}
+    \Require{$w_0, \eta_0, D_0, \theta_0 = + \infty$}    
+    \State $w_1 = w_0 - \eta \hat{D_0}^{-1} \nabla F(w_0)$
+
+    \For{$k = 1, 2, ...$}
+    \State $D_k = \beta D_{k-1} + (1-\beta_2) \cdot diag\left( z_k \odot \nabla^2 F(w_k) z_k \right)$
+    \State $(\hat{D_k})_{ii} = max \{|D_k|_{i, i} ; \alpha \}$, $\forall i = \overline{1, d}$
+    \State $\eta_k = min \{ \sqrt{1 + \theta_{k-1}} \cdot \eta_{k-1}; \frac{||w_k - w_{k-1}||_{\hat{D_k}}}{2 ||\nabla F(w_k) - \nabla F(w_{k-1}) ||_{\hat{D_k}}^* } \}$
+    \State $\theta_k = \frac{\eta_k}{\eta_{k-1}}$
+    \EndFor
+    
+\end{algorithmic}
+\end{algorithm}
+
+Now we will show the main differences between the methods of AdamL2, AdamW and MyAdamW -- the algorithm that we propose in this article
+
 \begin{algorithm}[H]
             
     \caption{Adam($\lambda$)}\label{alg:Adam}
@@ -272,6 +293,9 @@ Then, the number of iterations performed by AdamW algorithm, starting from an in
         T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
     \end{equation*}
 \end{theorem}
+
+\bibliographystyle{unsrtnat}
+\bibliography{references}
 \section{Appendix}
 
 \begin{theorem}
@@ -408,9 +432,5 @@ Then:
     T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
     \end{equation*}
 \end{proof}
-
-
-\bibliographystyle{unsrtnat}
-\bibliography{references}
 
 \end{document}
