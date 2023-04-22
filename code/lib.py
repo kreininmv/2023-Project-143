@@ -7,7 +7,7 @@ from datetime import datetime as dt
 from tqdm import tqdm
 
 class MyLogregression:
-    def __init__(self, fit_intercept=False, eps=5*1e-3,     iter =10 ** 3, batch=False, batch_size=50, decreasing_lr=False, name="GD", lr_func = None, label="None", dependent=False, l2_coef=0, betas = [0.999, 0.99]):
+    def __init__(self, fit_intercept=False, eps=5*1e-6,     iter =10 ** 3, batch=False, batch_size=50, decreasing_lr=False, name="GD", lr_func = None, label="None", dependent=False, l2_coef=0, betas = [0.999, 0.99]):
         self.fit_intercept = fit_intercept
         self._iter         = iter
         self._batch        = batch
@@ -22,7 +22,7 @@ class MyLogregression:
         self._l2_coef      = l2_coef
         self._betas        = betas
         self._grad_function = self.__grad_function
-        if name == "AdamL2" or name == "AdamW":
+        if name == "AdamL2" or name == "AdamW" or name == "OASIS" or name == "AdamWH":
             self._error_criterion = lambda w: np.linalg.norm(self._grad_function(w) + self._l2_coef * w, 2)
         else:
             self._error_criterion = lambda w: np.linalg.norm(self._grad_function(w), 2)
@@ -44,7 +44,7 @@ class MyLogregression:
         for i in range(len(self._y_train)):            
             up = self._y_train[i] * self._X_train[i] * np.exp(-self._y_train[i] * w * self._X_train[i])
             down = n * (1 + np.exp(-self._y_train[i] * w * self._X_train[i]))
-            sum = sum  - up/down
+            sum = sum - up/down
 
         return sum
 
@@ -174,7 +174,7 @@ class MyLogregression:
             self._w = self._w - lr(0) * grad_f(self._w)
             self._w = self._w - lr(0) * m_bias_corr / (np.sqrt(v_bias_corr) + eps) - lr(0) * self._l2_coef * self._w
             
-            self._error_adamw.append(np.linalg.norm(m_bias_corr + self._l2_coef * self._w * v_bias_corr , 2))
+            self._error_adamw.append(np.linalg.norm(m_bias_corr + self._l2_coef * self._w * (np.sqrt(v_bias_corr) + eps), 2))
             self._append_errors(self._w, time_start)
             
             if (self._errors[-1] < self._eps):
@@ -182,7 +182,7 @@ class MyLogregression:
             
         return self._w
     
-    def __MyAdamW(self, f, grad_f, w0, lr):
+    def __AdamWH(self, f, grad_f, w0, lr):
         time_start = dt.now()
         self._w = w0
         n = self._X_train.shape[0]
@@ -199,12 +199,11 @@ class MyLogregression:
             
             m_bias_corr = (m +  self._l2_coef * self._w) / (1-self._betas[0] ** self._i)
 
-            v_bias_corr = v / (1-self._betas[1] ** self._i)
-            #v_bias_corr = max(v / (1-self._betas[1] ** self._i), self._l2_coef)
+            v_bias_corr = np.max([v / (1-self._betas[1] ** self._i), np.ones_like(v) * self._l2_coef], axis=0)
 
-            self._w = self._w - lr(0) * grad_f(self._w)
-            self._w = self._w - (self._i + 1)/(self._i + 4)*lr(0) * m_bias_corr / (np.sqrt(v_bias_corr) + eps) 
-
+            self._w = self._w - lr(0) * m_bias_corr / (np.sqrt(v_bias_corr) + eps) 
+            
+            self._error_adamw.append(np.linalg.norm(m_bias_corr + self._l2_coef * self._w * (np.sqrt(v_bias_corr) + eps) , 2))
             self._append_errors(self._w, time_start)
             
             if (self._errors[-1] < self._eps):
@@ -257,13 +256,14 @@ class MyLogregression:
             # Обновляем learning rate
             left = np.sqrt(1 + lr_relative) * lr_k
             right = np.linalg.norm((self._w - w_prev) * D_k, 2) / np.max([2 * np.linalg.norm((grad - grad_prev) * D_k, 2), 1e-5])
-            lr_k = np.min([left, right, 0.09])
+            lr_k = np.max([np.min([left, right, 0.09]), 1e-4])
             
             w_prev = self._w
-            self._w = self._w - lr_k * m_bias_corr / (np.sqrt(v_bias_corr) + eps)  - lr_k * self._l2_coef * self._w
+            self._w = self._w - lr_k * m_bias_corr / (v_bias_corr + eps)  - lr_k * self._l2_coef * self._w
             
             lr_relative = lr_k / lr_prev_k
             lr_prev_k = lr_k
+            self._error_adamw.append(np.linalg.norm(m_bias_corr + self._l2_coef * self._w * (np.sqrt(v_bias_corr) + eps) , 2))
             self._append_errors(self._w, time_start)
             
             if (self._errors[-1] < self._eps):
@@ -288,8 +288,8 @@ class MyLogregression:
             return self.__AdamL2
         if (name == 'AdamW'):
             return self.__AdamW
-        if (name == 'MyAdamW'):
-            return self.__MyAdamW
+        if (name == 'AdamWH'):
+            return self.__AdamWH
         if (name == 'OASIS'):
             return self.__OASIS
         return self.__gradient_descent
