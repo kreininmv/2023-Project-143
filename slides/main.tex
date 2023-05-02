@@ -2,7 +2,7 @@
 \usepackage{bbm}
 \usepackage[utf8]{inputenc}
 \usepackage[T2A]{fontenc}
-\usepackage[english,russian]{babel}
+\usepackage[english]{babel}
 \usepackage{amscd,amssymb}
 \usepackage{amsfonts,amsmath,array}
 \usepackage{sidecap}
@@ -56,7 +56,7 @@
 
     \textbf{Problem:} 
     \begin{itemize}
-        \item Prove the convergence of the method AdamW and OASIS.
+        \item Prove the convergence of the methods with preconditioning with weight decays.
         \item Research the  convergence on practical tasks.
         \item Create and investigate new optimization algorithm 
         \item Compare it with the others
@@ -68,15 +68,13 @@
     \item Minimization problem:
     $$ \min_{x \in \mathbb{R}^d} f(x) $$
     
-    \item Objective function $f(x)$
     
     \item $r(x)$ -- regularization function, $r(x) = \frac{\lambda}{2} ||x||_2^2$
-
+    \item methods with preconditioning
+$$
+    w_t = w_{t-1} - \eta \cdot D_t^{-1} g_t,
+$$
     
-    \item Objective function for AdamL2 method -- $f(x) + r(x)$, where $r(x) = \frac{\lambda}{2} ||x||_2^2$
-    
-    \item $D_t$ -- pseudo hessian on t-step, (AdamW: diagonal matrix of squares of gradients, OASIS: calculated only diagonal elements with Rademacher distribution)
-
     \item New regularization function $\tilde{r}(x) :$ $\nabla \tilde{r}(x) = D_t \nabla r(x)$
 
     \item New objective function $\tilde{F}(x) = f(x) + \tilde{r}(x) $
@@ -91,85 +89,45 @@
 		f(y) \geq f(x) + \langle \nabla f(x), y-x \rangle
 	\end{equation*}
 \end{assumption}
-
-\begin{assumption}{2}{L-smoothness}
-	The gradients of F are L-Lipschitz continuous $\forall w \in \mathbb{R}^d$, i.e. there exists a constant $L > 0$ such that $\forall x, y \in \mathbb{R}^d$,
-	\begin{equation*}
-		f(x) \leq f(y) + \langle \nabla f(y), x-y \rangle + \frac{L}{2} ||x - y||^2
-	\end{equation*}
-\end{assumption}
-\end{frame}
-
-\begin{frame}{Assumptions}
-    \begin{assumption}{3}{$\mu$ - strongly convex}
-	The function f is $\mu$-strongly convex, i.e., there exists a constant $\mu > 0$ such that $\forall x, y \in \mathbb{R}^d$
-	\begin{equation*}
-		f(x) \geq f(y) + \langle f(y), x-y \rangle +\frac{\mu}{2} ||x - y||^2
-	\end{equation*}
-\end{assumption}
-
-\begin{assumption}{4}{PL--condition}
+\begin{assumption}{3}{PL--condition}
 	If there exists $\mu > 0$, such that $||\nabla f(w) || \geq 2 \mu (f(w) - f^*)$, $\forall w \in \mathbb{R}^d$
 \end{assumption}
 
-\begin{assumption}{5}{l-smoothness}
-	The gradient of r is l-Lipschitz continuous $\forall w \in \mathbb{R}^d$, i.e. there exists a constant $l > 0$ such that $\forall x, y \in \mathbb{R}^d$,
+\end{frame}
+
+
+\begin{frame}{Assumptions}
+\begin{assumption}{2}{L-l-smoothness}
+The gradients of F are L-Lipschitz continuous $\forall w \in \mathbb{R}^d$, i.e. there exists a constant $L > 0$ such that $\forall x, y \in \mathbb{R}^d$,
+	\begin{equation*}
+		f(x) \leq f(y) + \langle \nabla f(y), x-y \rangle + \frac{L}{2} ||x - y||^2
+	\end{equation*}
+
+    The gradient of r is l-Lipschitz continuous $\forall w \in \mathbb{R}^d$, i.e. there exists a constant $l > 0$ such that $\forall x, y \in \mathbb{R}^d$,
 	\begin{equation*}
 		r(x) \leq r(y) + \langle \nabla r(y), x-y \rangle + \frac{l}{2} ||x - y||^2
 	\end{equation*}
 \end{assumption}
+
 \end{frame}
 
-\begin{frame}{Algorithms}
-    \begin{columns}
-		\begin{column}{0.5\textwidth}
-			\begin{algorithm}[H]
-            
-            \caption{General scheme for preconditions methods}\label{alg:genalg}
+\begin{frame}{Differen ways of regularization}
+\begin{algorithm}[H]
+    \caption{Different ways of regularization}
+    \label{alg:precond}
     
-            \begin{algorithmic}
-            \small{
-            \Require{$\eta, \epsilon, f, r$}
+    \begin{algorithmic}
+            \Require{$\eta, f$}
             
             \While {$w$ not converged}
             \State $t = t+1$
-            \State $g_t = \nabla f_t(w_{t-1})$
-            \State $D_t =$ \textcolor{red}{diag($\sqrt{g_t \odot g_t} + \varepsilon$)} \footnote[1]{\textcolor{red}{red - AdamW}}
-            \State $D_t$ = \textcolor{cyan}{$\mathbb{E}[z^T \nabla^2f(w_{t-1}) z]$} \footnote[2]{\textcolor{cyan}{cyan - OASIS}, where $z$ in Rademacher distribution}
-            \State $w_t = w_{t-1} - \eta \cdot g_t D_t^{-1}$    
+            \State $g_t \gets$ stochastic gradient
+            \State $\textcolor{blue}{g_t \gets g_t + \nabla r(w_t)}$ \hfill \textcolor{blue}{standart regularization}
+            \State $D_t \gets$ preconditioning matrix
+            \State $w_t \gets w_{t-1} - \eta \cdot D_t^{-1} \left(g_t +\textcolor{orange}{\nabla r(w_t)} \right) \textcolor{red}{ - \eta \cdot \nabla r(w_t)}$ \hfill \textcolor{orange}{hessian weight decay}, \textcolor{red}{weight decay}
             \EndWhile
-            }
-\end{algorithmic}
+    \end{algorithmic}
 \end{algorithm}
-		\end{column}
-		
-		\begin{column}{0.55\textwidth} 
-	     	
-            \begin{algorithm}[H]
-            
-            \caption{Adam($\lambda$)}\label{alg:Adam}
-    
-            \begin{algorithmic}
-            \small{
-            \Require{$\eta, \beta_1, \beta_2, \epsilon, f, r$}
-            %\State $m_0 = 0$ -- 1-st moment vector
-            %\State$v_0 = 0$ -- 2-nd moment vector
-            \While {$\theta$ not converged}
-            \State $t = t+1$
-            \State $g_t = \nabla f(w_{t-1})$ + \textcolor{blue}{$\nabla r(w_{t-1})$}\footnote{\textcolor{blue}{blue -- AdamL2}} 
-            \State $m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$
-            \State $v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$
-            \State $\hat{m_t} = \frac{m_t}{1-\beta_1^t}$ + \textcolor{yellow}{$\nabla r(w_{t-1})$} \footnote{\textcolor{yellow}{yellow -- MyAdamW}}
-            \State $\hat{v_t} = \frac{v_t}{1-\beta_2^t}$ 
-            \State $w_t = w_{t-1} - \eta \cdot \frac{\hat{m_t}}{\sqrt{v_t} + \epsilon}$    - \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \footnote{\textcolor{red}{red - AdamW}}
-            \EndWhile
-            }
-\end{algorithmic}
-\end{algorithm}
-
-
-		\end{column}
-	\end{columns}
 \end{frame}
 
 \begin{frame}{Theorem №1}
@@ -327,30 +285,109 @@ $\tilde{F}(w) = f(w) + \tilde{r}(w)$, $F(w) = f(w) + r(w)$, ($\tilde{L}=L + l \a
     \end{equation*}
 \end{frame}
 
-\begin{frame}{Experiments}
-    Experimental conditions
-        \begin{itemize}
-            \item Model: ResNet18 (100 epoch),
-            \includegraphics[scale=0.3]{resnet18.png}
-            
-            \item CosineAnnealingLR scheduler: $\eta_t = \eta_{min} + \frac{1}{2} \left( \eta_{min} + \eta_{max} \right) \left(1 + cos\left(\frac{T_{cur}}{T_{max} \pi} \right) \right)$
-            \item Grid of learning rates = [0.01, 0.005, 0.0005], 
-            weight decays = [0.005, 0.0005, 0.00005]
-            \item Data set: CIFAR10. The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images. 
-        \end{itemize}
-     
+\begin{frame}{AdamW}
+    \begin{algorithm}[H]
+            \caption{Adam}\label{alg:genAdam}    
+            \begin{algorithmic}
+            \small{
+            \Require{$\eta, \beta_1, \beta_2, \epsilon, f, r$}
+            %\State $m_0 = 0$ -- 1-st moment vector
+            %\State$v_0 = 0$ -- 2-nd moment vector
+            \While {$\theta$ not converged}
+            \State $t = t+1$
+            \State $g_t = \nabla f(w_{t-1}) + $ \textcolor{blue}{$\nabla r(w_{t-1})$}\hfill \textcolor{blue}{AdamL2}
+            \State $m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$
+            \State $v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$
+            \State $\hat{m_t} = \frac{m_t}{1-\beta_1^t} +$ \textcolor{orange}{$\nabla r(w_{t-1})$} \hfill \textcolor{orange}{AdamWH}
+            \State $\hat{v_t} = \frac{v_t}{1-\beta_2^t}$ 
+            \State $w_t = w_{t-1} - \eta \cdot \frac{\hat{m_t}}{\sqrt{v_t} + \epsilon} - $ \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{AdamW}
+            \EndWhile
+            }
+\end{algorithmic}
+\end{algorithm}
 \end{frame}
 
-\begin{frame}{Experiment}              
-    Training loss (epoch)
-\begin{center}
-\includegraphics[width=0.7\textwidth, height=0.3\textheight]{training_loss.png}
-\end{center}
-    Testing accuracy (loss)
-\begin{center}
-    \includegraphics[width=0.7\textwidth, height=0.3\textheight]{testing_accuracy.png}
-\end{center}
+\begin{frame}{OASIS}
+    \begin{algorithm}[H]
+\caption{OASIS}\label{alg:OASIS}
+\begin{algorithmic}
+    \Require{$w_0, \eta_0, D_0, \theta_0 = + \infty$}    
+    \State $w_1 = w_0 - \eta \hat{D_0}^{-1} \nabla f(w_0)$
+
+    \For{$k = 1, 2, ...$}
+    \State $g_k = \nabla f(w_k) +$ \textcolor{blue}{$\nabla r(w_{t-1})$}\hfill \textcolor{blue}{OASISL2} 
+    \State $D_k = \beta D_{k-1} + (1-\beta_2) \cdot diag\left( z_k \odot \nabla^2 \left(f(w_k) + \textcolor{orange}{r(w_k)} \right) z_k \right)$ \hfill \textcolor{orange}{OASISWH}
+    \State $(\hat{D_k})_{ii} = max \{|D_k|_{i, i} ; \alpha \}$, $\forall i = \overline{1, d}$
+    \State $\eta_k = min \{ \sqrt{1 + \theta_{k-1}} \cdot \eta_{k-1}; \frac{||w_k - w_{k-1}||_{\hat{D_k}}}{2 ||\nabla f(w_k) - \nabla f(w_{k-1}) ||_{\hat{D_k}}^* } \}$
+    \State $w_{k+1} = w_k - \eta_k g_k D_k^{-1}- $ \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{OASISW} 
+    \State $\theta_k = \frac{\eta_k}{\eta_{k-1}}$
+    \EndFor
+    
+\end{algorithmic}
+\end{algorithm}
 \end{frame}
+
+\begin{frame}{Experiment}
+    \begin{figure}[H]
+\begin{minipage}[h]{0.49\linewidth}
+\centering Model - logistic regression
+\includegraphics[width=\textwidth]{adams_error.png}
+\caption{Adam on dataset mushrooms}
+    \label{fig:adams_error}
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.49\linewidth}
+\centering Dataset - mushrooms
+\includegraphics[width=\textwidth]{oasis_error.png}
+    \caption{OASIS on dataset mushrooms}
+        \label{fig:oasis_error}
+\end{minipage}
+\label{fig:oasis_error}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Experiment}
+
+    \begin{figure}[H]
+\centering
+    \includegraphics[width=0.75\textwidth]{main_mushrooms.png}
+    \caption{Compare different optimization algorithms on dataset: mushrooms}
+    \label{fig:main_mushrooms}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Experiment}
+    \begin{figure}[H]
+\centering Model - ResNet18, dataset - CIFAR10
+    \includegraphics[width=0.75\textwidth]{nn_results.png}
+    \caption{Different optimization algorithms on dataset: CIFAR10}
+
+        \label{fig:main_resnet18}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Publications:}
+    \begin{itemize}
+        \item Kingma, Diederik P., and Jimmy Ba. "Adam: A method for stochastic optimization." arXiv preprint arXiv:1412.6980 (2014).
+        \item Jahani, Majid, et al. "Doubly adaptive scaled algorithm for machine learning using second-order information." arXiv preprint arXiv:2109.05198 (2021).
+        \item Sadiev, Abdurakhmon, et al. "Stochastic gradient methods with preconditioned updates." arXiv preprint arXiv:2206.00285 (2022).
+        \item Beznosikov, Aleksandr, et al. "On scaled methods for saddle point problems." arXiv preprint arXiv:2206.08303 (2022).
+        \item Loshchilov, Ilya, and Frank Hutter. "Decoupled weight decay regularization." arXiv preprint arXiv:1711.05101 (2017).
+        \item Xie, Zeke, Issei Sato, and Masashi Sugiyama. "Stable weight decay regularization." (2020).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion:}
+    \begin{itemize}
+        \item Proofed the convergence of AdamW algorithm with different assumptions.
+        \item The optimization algorithms AdamW, AdamL2, MyAdamW, GD on a real problem are investigated on neural networks
+        \item Create new optimization algorithm MyAdamW.
+        \item The optimization algorithms AdamW, AdamL2, MyAdamW, GD on a real problem are investigated on logistic regression.
+        \item Investigate optimal learning rates and weight decayes.
+        \item Choose weight decays less then learning rates.
+    \end{itemize}
+\end{frame}
+
 
 \if 0
 \begin{frame}
