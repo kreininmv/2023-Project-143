@@ -1,5 +1,5 @@
 \documentclass{article}
-
+          
 \usepackage{arxiv}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
@@ -27,9 +27,8 @@
 
 % Цвета 
 \usepackage[dvipsnames]{xcolor}
-\usepackage{color}
-%\usepackage{colortbl}
-
+\usepackage{color}   
+% Возможность сделать 14-й шрифт
 
 \newtheorem{theorem}{Theorem}
 
@@ -57,37 +56,21 @@
 	Moscow Institute of Physics and Technology\\
 	Moscow, Russia \\
 	\texttt{kreinin.mv@phystech.edu} \\
-	%% examples of more authors
-        \And
+	\And
         Beznosikov A. \\
 	Department of Data Science\\
 	Moscow Institute of Physics and Technology\\
 	Moscow, Russia \\
 	\texttt{beznosikov.an@phystech.edu} \\
-	%% \AND
-	%% Coauthor \\
-	%% Affiliation \\
-	%% Address \\
-	%% \texttt{email} \\
-	%% \And
-	%% Coauthor \\
-	%% Affiliation \\
-	%% Address \\
-	%% \texttt{email} \\
-	%% \And
-	%% Coauthor \\
-	%% Affiliation \\
-	%% Address \\
-	%% \texttt{email} \\
 }
 
 % Uncomment to remove the date
 %\date{}
 
 % Uncomment to override  the `A preprint' in the header
-%\renewcommand{\headeright}{Technical Report}
+\renewcommand{\headeright}{}
 %\renewcommand{\undertitle}{Technical Report}
-\renewcommand{\shorttitle}{\textit{arXiv} Template}
+%\renewcommand{\shorttitle}{\textit{arXiv} Template}
 
 %%% Add PDF metadata to help others organize their library
 %%% Once the PDF is generated, you can check the metadata with
@@ -97,7 +80,7 @@
 \maketitle
 
 \begin{abstract}
-This paper investigates the convergence behavior of optimization methods that utilize weight decay regularization, specifically focusing on popular variants such as AdamW.
+This paper investigates the convergence behavior of optimization methods with preconditioning that utilize weight decay regularization, specifically focusing on popular variants such as AdamW and OASIS.
 We explore different alternatives to these method, with the goal of investigating their convergence speed and accuracy.
 Also we conduct experiments on benchmark datasets and models in order to compare them on practice.
 Overall, our study provides insights into the design of regularization techniques methods with preconditioning.
@@ -149,7 +132,7 @@ We can include regularizer $r$ in $g_t$ calculation so it will be taken into con
 Or we can include regularizer only on last step, decreasing norm of $w$ \citep{loshchilov2017decoupled}.
 This way of regularization is called weight decay and surprisingly turns out to be more efficient in practical problems.
 There are few other ways of considering regularizer which will be discussed further in the paper.
-
+\if 0
 In general, our paper provides insight into comparison of different consideration ways of regularization is methods with preconditioning. Here, we provide a brief summary of our main contributions:
 
 \begin{itemize}
@@ -159,56 +142,9 @@ In general, our paper provides insight into comparison of different consideratio
     
     \item \textbf{Competitive numerical results.} We investigate the empirical performance of Adam's variation including new one on a variety of standard machine learning tasks, including logistic regression.
 \end{itemize}
-
-
-\section{Regularizer consideration}
-
-\if 0
-\subsection{General preconditioning algorithm}
-
-To begin with, we present the general formulation of preconditioned algorithms in \hyperref[alg:precond]{Algorithm 1}, and the general formulation of first-order algorithms in \hyperref[alg:first]{Algorithm 2}.
-As mentioned briefly earlier, the key distinction of preconditioned methods is the application of the preconditioning matrix $D_t$ to scale the gradient, taking into account second-order information.
-
-\begin{minipage}{0.47\textwidth}
-    \begin{algorithm}[H]
-        \caption{Method with preconditioning}
-        \label{alg:precondgen}
-        
-        \begin{algorithmic}
-                \Require{learning rate $\eta$, target function $f$}
-                
-                \While {$w$ not converged}
-                \State $t = t+1$
-                \State $g_t \gets$ stochastic gradient
-                \State $D_t \gets$ preconditioning matrix
-                \State $w_t \gets w_{t-1} - \eta \cdot D_t^{-1} g_t$
-                \EndWhile
-        \end{algorithmic}
-    \end{algorithm}
-\end{minipage}
-\hfill
-\begin{minipage}{0.47\textwidth}
-    \begin{algorithm}[H]
-        \caption{First-ordered algorithm}
-        \label{alg:first}
-        \begin{algorithmic}
-                \Require{learning rate $\eta$, target function $f$}
-                
-                \While {$w$ not converged}
-                \State $t = t+1$
-                \State $g_t \gets$ stochastic gradient
-                \State $w_t \gets w_{t-1} - \eta \cdot g_t$
-                \EndWhile
-        \end{algorithmic}
-    \end{algorithm}
-\end{minipage}
-
-We do not prescribe the exact method for obtaining $g_t$. In large-scale problems, stochastic gradient descent is a more efficient approach since computing the full gradient is prohibitively expensive. While computing the Hessian is considerably more costly, so there exist various techniques for computing the preconditioning matrix $D_t$, and we delegate the specific choice of the preconditioning approach to the authors of individual methods.
-
-\subsection{Three ways of regularizer consideration}
-
 \fi
 
+\section{Notation}
 In preconditioned methods, there exist several techniques for incorporating regularization into the optimization process.
 In this study, we consider three different approaches, which are illustrated in \hyperref[alg:precond]{Algorithm 1} using different colors.
 In general, these methods can be characterized by the stage in which the regularization term is incorporated into the optimization process.
@@ -326,143 +262,8 @@ Then, the number of iterations performed by AdamW algorithm, starting from an in
 \label{theor:1}
 \end{theorem}
 
-\begin{theorem}
-    Suppose the Assumption \hyperref[ass:convex]{1}, \hyperref[ass:Lsmoothness]{2}, \hyperref[ass:plcondition]{3} hold, let $\varepsilon > 0$ and let the step-size satisfy
-    \begin{equation*}
-        \eta \leq \frac{2 \alpha}{\tilde{L}}
-    \end{equation*}
-    Then, the number of iterations performed by AdamW algorithm, starting from an initial point $w_0 \in \mathbb{R}^d$ with $\Delta_0 = \tilde{F}(w_0) - \tilde{F}^*$, required to obtain and $\varepsilon$-approximate solution of the convex problem \eqref{eq:general} can be bounded by
-    \begin{equation*}
-        T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
-    \end{equation*}
-    \label{theor:2}
-\end{theorem}
 
-
-\subsection{Convergence trajectory of preconditioning methods}
-
- In the previous subsection we have proved convergence of preconditioned methods, however we have pointed out above that methods with weight decay does not converge to the initial optimized function $F = f + r$, but rather to a new function $\tilde{F} = f + \tilde{r}$.
-
-We will consider two algorithms OASIS and Adam, and its variations. Their main difference is in the calculation of the pseudo hessian.
-In Adam, the Hessian is a diagonal matrix consisting of squares of derivatives, in OASIS we have a stochastic Hessian, which is calculated through a random variable from the Randemacher distribution. 
-
-We framed three methods of regularization for Adam and OASIS in \hyperref[alg:genAdam]{Algorithm 2} and \hyperref[alg:OASIS]{Algorithm 3} respectively.
-Results of our computational experiments are framed in \hyperref[fig:adams_error]{Figure 1} and \hyperref[fig:oasis_error]{Figure 2}.
-In can be seen that methods with weight decay converges only by special criterion $\nabla f + D_t \nabla r$.
-
-\begin{algorithm}[h]
-            
-            \caption{Adam}\label{alg:genAdam}
-    
-            \begin{algorithmic}
-            \small{
-            \Require{$\eta, \beta_1, \beta_2, \epsilon, f, r$}
-            %\State $m_0 = 0$ -- 1-st moment vector
-            %\State$v_0 = 0$ -- 2-nd moment vector
-            \While {$\theta$ not converged}
-            \State $t = t+1$
-            \State $g_t = \nabla f(w_{t-1}) + $ \textcolor{blue}{$\nabla r(w_{t-1})$}\hfill \textcolor{blue}{AdamL2}
-            \State $m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$
-            \State $v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$
-            \State $\hat{m_t} = \frac{m_t}{1-\beta_1^t} +$ \textcolor{orange}{$\nabla r(w_{t-1})$} \hfill \textcolor{orange}{AdamWH}
-            \State $\hat{v_t} = \frac{v_t}{1-\beta_2^t}$ 
-            \State $w_t = w_{t-1} - \eta \cdot \frac{\hat{m_t}}{\sqrt{v_t} + \epsilon} - $ \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{AdamW}
-            \EndWhile
-            }
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[h]
-\caption{OASIS}\label{alg:OASIS}
-\begin{algorithmic}
-    \Require{$w_0, \eta_0, D_0, \theta_0 = + \infty$}    
-    \State $w_1 = w_0 - \eta \hat{D_0}^{-1} \nabla f(w_0)$
-
-    \For{$k = 1, 2, ...$}
-    \State $g_k = \nabla f(w_k) +$ \textcolor{blue}{$\nabla r(w_{t-1})$}\hfill \textcolor{blue}{OASISL2} 
-    \State $D_k = \beta D_{k-1} + (1-\beta_2) \cdot diag\left( z_k \odot \nabla^2 \left(f(w_k) + \textcolor{orange}{r(w_k)} \right) z_k \right)$ \hfill \textcolor{orange}{OASISWH}
-    \State $(\hat{D_k})_{ii} = max \{|D_k|_{i, i} ; \alpha \}$, $\forall i = \overline{1, d}$
-    \State $\eta_k = min \{ \sqrt{1 + \theta_{k-1}} \cdot \eta_{k-1}; \frac{||w_k - w_{k-1}||_{\hat{D_k}}}{2 ||\nabla f(w_k) - \nabla f(w_{k-1}) ||_{\hat{D_k}}^* } \}$
-    \State $w_{k+1} = w_k - \eta_k g_k D_k^{-1}- $ \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{OASISW} 
-    \State $\theta_k = \frac{\eta_k}{\eta_{k-1}}$
-    \EndFor
-    
-\end{algorithmic}
-\end{algorithm}
-
-Thus, method converges to another solution,
-
-\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-\centering
-    \includegraphics[width=\textwidth]{pictures/mushrooms/adams_error.png}
-    \caption{Adam on dataset mushrooms}
-        \label{fig:adams_error}
-\end{figure}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-\centering
-    \includegraphics[width=\textwidth]{pictures/mushrooms/oasis_error.png}
-    \caption{OASIS on dataset mushrooms}
-        \label{fig:oasis_error}
-\end{figure}
-\label{fig:error}
-\end{minipage}
-
-
-
-
-\begin{figure}[H]
-\centering
-    \includegraphics[width=0.9\textwidth]{pictures/mushrooms/main_adam.png}
-    \caption{Dataset: mushrooms}
-    
-        \label{fig:main_mushrooms_adam}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-    \includegraphics[width=0.9\textwidth]{pictures/mushrooms/main_mushrooms.png}
-    \caption{Dataset: mushrooms}
-    
-        \label{fig:main_mushrooms}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-    \includegraphics[width=0.9\textwidth]{pictures/wine/main_wine.png}
-    \caption{Dataset: wine}
-    
-        \label{fig:main_wine}
-\end{figure}
-
-\subsection{Computational experiment}
-
-
-
-
-
-
-\bibliographystyle{unsrtnat}
-\bibliography{refs}
-
-\newpage
-\section{Appendix}
-\begin{theorem}
-Suppose the Assumption \hyperref[ass:convex]{1}, \hyperref[ass:Lsmoothness]{2} and let $\varepsilon > 0$ and let the step-size satisfy
-\begin{equation*}
-    \eta < \frac{2 \alpha}{L + l \cdot \alpha} 
-\end{equation*}
-Then, the number of iterations performed by AdamW algorithm, starting from an initial point $w_0 \in \mathbb{R}^d$ with $\Delta_0 = \tilde{F}(w_0) - \tilde{F}^*$, required to obtain and $\varepsilon$-approximate solution of the convex problem \eqref{eq:general} can be bounded by
-\begin{equation*}
-      T = \mathcal{O}\left( \frac{2\Delta_0 \Gamma \alpha } {(2\alpha - \tilde{L}\eta) \eta \varepsilon} \right)
-\end{equation*}
-
-\end{theorem}
 \begin{proof}
-
 Let's write \ref{ass:convex} for step t and $t+1$:
 
 \begin{equation*}
@@ -538,8 +339,10 @@ we get an estimate for the number of steps required for a given accuracy
 \end{equation*}
 \end{proof}
 
+
+
 \begin{theorem}
-    Suppose the Assumption \hyperref[ass:convex]{1}, \hyperref[ass:Lsmoothness]{2}, \hyperref[ass:plcondition]{3} and let $\varepsilon > 0$ and let the step-size satisfy
+    Suppose the Assumption \hyperref[ass:convex]{1}, \hyperref[ass:Lsmoothness]{2}, \hyperref[ass:plcondition]{3} hold, let $\varepsilon > 0$ and let the step-size satisfy
     \begin{equation*}
         \eta \leq \frac{2 \alpha}{\tilde{L}}
     \end{equation*}
@@ -547,8 +350,8 @@ we get an estimate for the number of steps required for a given accuracy
     \begin{equation*}
         T =  \mathcal{O}\left( \frac{\ln \frac{\Delta_0}{\epsilon}}{2 \mu \eta^2(\frac{1}{\eta} - \frac{\tilde{L}}{2 \alpha})} \right)
     \end{equation*}
+    \label{theor:2}
 \end{theorem}
-
 \begin{proof}
     The proof of this theorem will be similar to the previous one, the main difference is that we impose another assumoption \ref{ass:plcondition} on the original function 
     Assume 
@@ -599,8 +402,102 @@ we get an estimate for the number of steps required for a given accuracy
     \end{equation*}
 \end{proof}
 
-\subsection{Experiments:}
+\subsection{Convergence trajectory of preconditioning methods}
+
+ In the previous subsection we have proved convergence of preconditioned methods, however we have pointed out above that methods with weight decay does not converge to the initial optimized function $F = f + r$, but rather to a new function $\tilde{F} = f + \tilde{r}$.
+
+We will consider two algorithms OASIS and Adam, and its variations. Their main difference is in the calculation of the pseudo hessian.
+In Adam, the Hessian is a diagonal matrix consisting of squares of derivatives, in OASIS we have a stochastic Hessian, which is calculated through a random variable from the Randemacher distribution. 
+
+We framed three methods of regularization for Adam and OASIS in \hyperref[alg:genAdam]{Algorithm 2} and \hyperref[alg:OASIS]{Algorithm 3} respectively.
+Results of our computational experiments are framed in \hyperref[fig:adams_error]{Figure 1} and \hyperref[fig:oasis_error]{Figure 2}.
+In can be seen that methods with weight decay converges only by special criterion $\nabla f + D_t \nabla r$.
+
+\begin{algorithm}[H]
+\caption{OASIS}\label{alg:OASIS}
+\begin{algorithmic}
+    \Require{$w_0, \eta_0, D_0, \theta_0 = + \infty$}    
+    \State $w_1 = w_0 - \eta \hat{D_0}^{-1} \nabla f(w_0)$
+
+    \For{$k = 1, 2, ...$}
+    \State $g_k = \nabla f(w_k) +$ \textcolor{blue}{$\nabla r(w_{t-1})$}\hfill \textcolor{blue}{OASISL2} 
+    \State $D_k = \beta D_{k-1} + (1-\beta_2) \cdot diag\left( z_k \odot \nabla^2 \left(f(w_k) + \textcolor{orange}{r(w_k)} \right) z_k \right)$ \hfill \textcolor{orange}{OASISWH}
+    \State $(\hat{D_k})_{ii} = max \{|D_k|_{i, i} ; \alpha \}$, $\forall i = \overline{1, d}$
+    \State $\eta_k = min \{ \sqrt{1 + \theta_{k-1}} \cdot \eta_{k-1}; \frac{||w_k - w_{k-1}||_{\hat{D_k}}}{2 ||\nabla f(w_k) - \nabla f(w_{k-1}) ||_{\hat{D_k}}^* } \}$
+    \State $w_{k+1} = w_k - \eta_k g_k D_k^{-1}- $ \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{OASISW} 
+    \State $\theta_k = \frac{\eta_k}{\eta_{k-1}}$
+    \EndFor
+    
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+            \caption{Adam}\label{alg:genAdam}    
+            \begin{algorithmic}
+            \small{
+            \Require{$\eta, \beta_1, \beta_2, \epsilon, f, r$}
+            %\State $m_0 = 0$ -- 1-st moment vector
+            %\State$v_0 = 0$ -- 2-nd moment vector
+            \While {$\theta$ not converged}
+            \State $t = t+1$
+            \State $g_t = \nabla f(w_{t-1}) + $ \textcolor{blue}{$\nabla r(w_{t-1})$}\hfill \textcolor{blue}{AdamL2}
+            \State $m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$
+            \State $v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$
+            \State $\hat{m_t} = \frac{m_t}{1-\beta_1^t} +$ \textcolor{orange}{$\nabla r(w_{t-1})$} \hfill \textcolor{orange}{AdamWH}
+            \State $\hat{v_t} = \frac{v_t}{1-\beta_2^t}$ 
+            \State $w_t = w_{t-1} - \eta \cdot \frac{\hat{m_t}}{\sqrt{v_t} + \epsilon} - $ \textcolor{red}{$\eta \nabla r(w_{t-1})$ } \hfill \textcolor{red}{AdamW}
+            \EndWhile
+            }
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Experiments}
+We set up experiments on the dataset \href{https://archive.ics.uci.edu/ml/datasets/mushroom}{mushrooms}, logistic regression was chosen as the model, the optimizers were AdamL2, AdamW, AdamWH, OASISL2, OASISW, OASISWH, SGD. Various learning rates and weight decays were considered.
+
+We observe the effect that by the new criterion the AdamW, AdamWH, OASISW, OASISWH methods converge much better than by the old one, and they also converge better than AdamL2, OASISL2.
+\begin{figure}[H]
+\begin{minipage}[h]{0.4\linewidth}
+\centering 
+\includegraphics[width=\textwidth]{pictures/mushrooms/adams_error.png}
+\caption{Adam on dataset mushrooms}
+    \label{fig:adams_error}
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.4\linewidth}
+\includegraphics[width=\textwidth]{pictures/mushrooms/oasis_error.png}
+    \caption{OASIS on dataset mushrooms}
+        \label{fig:oasis_error}
+\end{minipage}
+\label{fig:oasis_error}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.7\textwidth]{pictures/mushrooms/main_adam.png}
+    \caption{Adam algrorithms on dataset: mushrooms}
+    \label{fig:main_mushrooms_adam}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.7\textwidth]{pictures/mushrooms/main_mushrooms.png}
+    \caption{Compare different optimization algorithms on dataset: mushrooms}
+    \label{fig:main_mushrooms}
+\end{figure}
+As we can see, the AdamW method shows the best result compared to other optimization algorithms, it is also clear that the new AdamW criterion converges much faster than the old one, and thus it has a better generalization ability compared to other methods.
+
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.7\textwidth]{pictures/wine/main_wine.png}
+    \caption{Compare different optimization algorithms on dataset: mushrooms}
+    
+        \label{fig:main_wine}
+\end{figure}
+Here we see a similar picture as in the last example.
 \subsubsection{Mushrooms}
+Here are all the experiments that were performed on the mushrooms dataset. Learning rate and weight decay are signed for each method on the picture, as well as the criterion used to calculate the error.
 \begin{figure}[h]
 \begin{minipage}[h]{0.5\linewidth}
 \center{\includegraphics[width=\linewidth]{pictures/mushrooms/m_adamw_2000_1.png}}
@@ -614,7 +511,7 @@ we get an estimate for the number of steps required for a given accuracy
 \label{fig:m_adamw}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{minipage}[h]{0.5\linewidth}
 \center{\includegraphics[width=\linewidth]{pictures/mushrooms/m_adamwh_2000_1.png}}
 \end{minipage}
@@ -626,7 +523,7 @@ we get an estimate for the number of steps required for a given accuracy
 \label{fig:m_adamwh}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{minipage}[h]{0.5\linewidth}
 \center{\includegraphics[width=\linewidth]{pictures/mushrooms/m_oasisw_1.png}}
 \end{minipage}
@@ -638,7 +535,7 @@ we get an estimate for the number of steps required for a given accuracy
 \label{fig:m_oasisw}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{minipage}[h]{0.5\linewidth}
 \center{\includegraphics[width=\linewidth]{pictures/mushrooms/m_oasiswh_1.png}}
 \end{minipage}
@@ -665,7 +562,7 @@ we get an estimate for the number of steps required for a given accuracy
 
 %xuy 
 \subsubsection{Wine}
-
+Here are all the experiments that were performed on the \href{https://archive.ics.uci.edu/ml/datasets/wine}{wine} dataset. Learning rate and weight decay are signed for each method on the picture, as well as the criterion used to calculate the error.
 \begin{figure}[H]
 \begin{minipage}[h]{0.5\linewidth}
 \center{\includegraphics[width=\linewidth]{pictures/wine/w_adamw_2000_1.png}}
@@ -716,6 +613,22 @@ we get an estimate for the number of steps required for a given accuracy
 \label{fig:w_gd_adaml2}
 \end{figure}
 
+And to finalize our results let's show the results of training \href{https://pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html}{ResNet18} on 4 different optimizators with \href{https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.CosineAnnealingLR.html}{CosineAnnealingLr} on dataset \href{https://www.cs.toronto.edu/~kriz/cifar.html}{CIFAR10}.
 
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.7\textwidth]{pictures/nn_results.png}
+    \caption{Compare different optimization algorithms on dataset: CIFAR10}
+
+        \label{fig:main_resnet18}
+\end{figure}
+AdamW shows the worst results for the loss function, but wins all other methods in accuracy on the test sample, exactly this generalizing ability of the AdamW method was mentioned earlier.
+
+\subsection{Conclusion:}
+This paper investigated preconditioning methods with weight decay regularization. Two theorems were established for these methods, each under different assumptions regarding the target loss function. The theorems demonstrated that these methods converge to a different criterion that is significantly superior to the original one. Consequently, these methods exhibit reduced overfitting and greater generalization ability, leading to excellent performance when training neural networks. Empirical results were also presented to support these findings.
+
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
 
 \end{document}

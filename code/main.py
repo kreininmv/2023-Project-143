@@ -12,7 +12,7 @@ import os
 import argparse
 import sys
 
-from myadam import MyAdamW
+from adamwh import MyAdamW
 
 from resnet import ResNet18
 
@@ -20,13 +20,11 @@ from tqdm import tqdm
 #from torch.utils import progress_bar
 from torch.utils.tensorboard import SummaryWriter
 
-
 def test(epoch):
     global best_acc
     global test_step
     net.eval()
     test_loss = 0
-    test_loss_true = 0
     correct = 0
     total = 0
     with torch.no_grad():
@@ -38,15 +36,11 @@ def test(epoch):
             loss = criterion(outputs, targets)
 
             test_loss += loss.item()
-            #
-            test_loss_true += loss.item()
-
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
             writer.add_scalar('Testing loss', test_loss/(batch_idx+1),global_step=test_step)
-            writer.add_scalar('Testing loss true', test_loss_true/(batch_idx+1),global_step=test_step)
             writer.add_scalar('Testing accuracy', 100.*correct/total, global_step=test_step)
             
             loop.set_description(f"{full_name}Epoch (Test)[{epoch}/{num_epoch}]")
@@ -65,7 +59,7 @@ def test(epoch):
             os.mkdir('checkpoint')
         torch.save(state, f'./checkpoint/ckpt.pth')
         best_acc = acc
-    return test_loss, correct, total, test_loss_true
+    return test_loss, correct, total
 
 # Training
 def train(epoch):
@@ -73,7 +67,6 @@ def train(epoch):
     global train_step
     net.train()
     train_loss = 0
-    train_loss_true = 0
     correct = 0
     total = 0
     loop = tqdm(enumerate(trainloader), total=len(trainloader), leave=False)
@@ -88,23 +81,17 @@ def train(epoch):
         train_step += 1
 
         train_loss += loss.item()
-        #true loss
-        train_loss_true += loss.item() + 
-        
         _, predicted = outputs.max(1)
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
         writer.add_scalar('Training loss', train_loss/(batch_idx+1),global_step=train_step)
-        writer.add_scalar('Training loss true', train_loss_true/(batch_idx+1),global_step=test_step)
         writer.add_scalar('Training accuracy', 100.*correct/total, global_step=train_step)
-        
 
         loop.set_description(f"{full_name} Epoch (Train)[{epoch}/{num_epoch}]")
         loop.set_postfix(loss= train_loss/(batch_idx+1), acc=100.*correct/total, correct=correct, total=total)
 
-    return train_loss, correct, total, train_loss_true
-
+    return train_loss, correct, total
 if __name__ == '__main__': # protect your program's entry point
     parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
     parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
